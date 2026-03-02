@@ -28,7 +28,7 @@ import DocsLayout from "../../layouts/DocsLayout.astro";
             <pre><code>sudo usermod -aG dialout $USER</code></pre>
             Log out and back in for the group change to take effect.
         </li>
-        <li>Go 1.21+ installed (for building from source)</li>
+        <li>Go 1.21+ (only needed if building from source)</li>
         <li>An Ender instance running and accessible from the agent host</li>
     </ul>
 
@@ -42,9 +42,59 @@ import DocsLayout from "../../layouts/DocsLayout.astro";
         need it to configure the agent.
     </p>
 
-    <h2>Step 2: Build the agent</h2>
+    <h2>Step 2: Get the agent</h2>
 
-    <pre><code>cd modem-agent
+    <h3>Option 1: Download pre-built binary</h3>
+
+    <p>
+        Download the latest release for your platform:
+    </p>
+
+    <div class="not-prose my-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <a href="https://github.com/JimScope/ender/releases/latest/download/ender-modem-agent_linux_amd64.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+            <h4 class="card-title">Linux x86_64</h4>
+            <p class="card-description">amd64 &middot; .tar.gz</p>
+        </a>
+        <a href="https://github.com/JimScope/ender/releases/latest/download/ender-modem-agent_linux_arm64.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+            <h4 class="card-title">Linux ARM64</h4>
+            <p class="card-description">arm64 &middot; .tar.gz</p>
+        </a>
+        <a href="https://github.com/JimScope/ender/releases/latest/download/ender-modem-agent_linux_arm.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+            <h4 class="card-title">Linux ARM</h4>
+            <p class="card-description">armv7 &middot; .tar.gz</p>
+        </a>
+        <a href="https://github.com/JimScope/ender/releases/latest/download/ender-modem-agent_darwin_amd64.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+            <h4 class="card-title">macOS Intel</h4>
+            <p class="card-description">amd64 &middot; .tar.gz</p>
+        </a>
+        <a href="https://github.com/JimScope/ender/releases/latest/download/ender-modem-agent_darwin_arm64.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+            <h4 class="card-title">macOS Apple Silicon</h4>
+            <p class="card-description">arm64 &middot; .tar.gz</p>
+        </a>
+        <a href="https://github.com/JimScope/ender/releases/latest/download/ender-modem-agent_windows_amd64.zip" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+            <h4 class="card-title">Windows x86_64</h4>
+            <p class="card-description">amd64 &middot; .zip</p>
+        </a>
+        <a href="https://github.com/JimScope/ender/releases/latest/download/ender-modem-agent_windows_arm64.zip" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+            <h4 class="card-title">Windows ARM64</h4>
+            <p class="card-description">arm64 &middot; .zip</p>
+        </a>
+    </div>
+
+    <p>Extract and install:</p>
+
+    <pre><code># Linux / macOS
+tar -xzf ender-modem-agent_*.tar.gz
+sudo mv ender-modem-agent /usr/local/bin/
+
+# Windows — extract the .zip and add ender-modem-agent.exe to your PATH</code></pre>
+
+    <h3>Option 2: Build from source</h3>
+
+    <p>Requires Go 1.21+:</p>
+
+    <pre><code>git clone https://github.com/JimScope/ender.git
+cd ender/modem-agent
 go build -o ender-modem-agent .</code></pre>
 
     <h2>Step 3: Configure</h2>
