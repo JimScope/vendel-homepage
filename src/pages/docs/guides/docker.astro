@@ -7,19 +7,19 @@ import CodeBlock from '../../../components/CodeBlock.astro'
   <h1>Docker Deployment</h1>
 
   <p class="lead text-xl text-neutral-600">
-    Deploy Ender using Docker Compose.
+    Deploy Vendel using Docker Compose.
   </p>
 
   <h2>docker-compose.yml</h2>
 
-  <p>Ender runs as a single container serving both the API and the web dashboard on port 8090. Data is stored in an embedded SQLite database.</p>
+  <p>Vendel runs as a single container serving both the API and the web dashboard on port 8090. Data is stored in an embedded SQLite database.</p>
 
   <CodeBlock
     lang="yaml"
     filename="docker-compose.yml"
     code={`services:
   app:
-    image: ghcr.io/jimscope/ender:latest
+    image: ghcr.io/jimscope/vendel:latest
     environment:
       - ENVIRONMENT=production
       - FIRST_SUPERUSER=\${FIRST_SUPERUSER}
@@ -38,10 +38,10 @@ import CodeBlock from '../../../components/CodeBlock.astro'
     ports:
       - "8090:8090"
     volumes:
-      - ender_data:/app/pb_data
+      - vendel_data:/app/pb_data
 
 volumes:
-  ender_data:`}
+  vendel_data:`}
   />
 
   <h2>Environment variables</h2>
@@ -71,7 +71,7 @@ FIREBASE_SERVICE_ACCOUNT_JSON={"type":"service_account",...}`}
 
   <CodeBlock
     lang="bash"
-    code={`LITESTREAM_REPLICA_URL=s3://my-bucket/ender/data
+    code={`LITESTREAM_REPLICA_URL=s3://my-bucket/vendel/data
 LITESTREAM_ACCESS_KEY_ID=your-access-key
 LITESTREAM_SECRET_ACCESS_KEY=your-secret-key`}
   />

@@ -7,14 +7,14 @@ import CodeBlock from "../../components/CodeBlock.astro";
     <h1>Quick Start</h1>
 
     <p class="lead text-xl text-neutral-600">
-        Get Ender up and running in 5 minutes.
+        Get Vendel up and running in 5 minutes.
     </p>
 
     <h2>Choose your path</h2>
 
     <div class="not-prose my-6 grid gap-4 md:grid-cols-2">
         <div class="card card-featured">
-            <h3 class="card-title">Ender Cloud (Recommended)</h3>
+            <h3 class="card-title">Vendel Cloud (Recommended)</h3>
             <p class="card-description">
                 Start sending SMS in under 2 minutes. No server needed.
             </p>
@@ -63,7 +63,7 @@ import CodeBlock from "../../components/CodeBlock.astro";
         filename="docker-compose.yml"
         code={`services:
   app:
-    image: ghcr.io/jimscope/ender:latest
+    image: ghcr.io/jimscope/vendel:latest
     environment:
       - ENVIRONMENT=production
       - FIRST_SUPERUSER=admin@yourdomain.com
@@ -73,17 +73,17 @@ import CodeBlock from "../../components/CodeBlock.astro";
     ports:
       - "8090:8090"
     volumes:
-      - ender_data:/app/pb_data
+      - vendel_data:/app/pb_data
 
 volumes:
-  ender_data:`}
+  vendel_data:`}
     />
 
     <h3>2. Start the service</h3>
 
     <CodeBlock lang="bash" code="docker compose up -d" />
 
-    <p>This starts Ender on port <code>8090</code>, serving both the API and the web dashboard as a single service. Data is stored in an embedded SQLite database.</p>
+    <p>This starts Vendel on port <code>8090</code>, serving both the API and the web dashboard as a single service. Data is stored in an embedded SQLite database.</p>
 
     <h3>3. Log in to the dashboard</h3>
 
@@ -93,12 +93,12 @@ volumes:
 
     <h3>4. Connect a device</h3>
 
-    <p>Install the Ender Android app on your phone:</p>
+    <p>Install the Vendel Android app on your phone:</p>
 
     <ol>
         <li>
             Download the APK from <a
-                href="https://github.com/JimScope/ender-android/releases"
+                href="https://github.com/JimScope/vendel-android/releases"
                 >GitHub Releases</a>
         </li>
         <li>
@@ -132,7 +132,7 @@ volumes:
   -H "Content-Type: application/json" \\
   -d '{
     "recipients": ["+1234567890"],
-    "body": "Hello from Ender!"
+    "body": "Hello from Vendel!"
   }'`}
     />
 

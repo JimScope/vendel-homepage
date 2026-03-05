@@ -6,17 +6,17 @@ import DocsLayout from '../../layouts/DocsLayout.astro'
   <h1>Introduction</h1>
 
   <p class="lead text-xl text-neutral-600">
-    Ender is an open source SMS gateway that lets you send text messages using your own Android phones or USB modems.
+    Vendel is an open source SMS gateway that lets you send text messages using your own Android phones or USB modems.
   </p>
 
-  <h2>What is Ender?</h2>
+  <h2>What is Vendel?</h2>
 
   <p>
-    Instead of paying per-message fees to services like Twilio or Vonage, Ender lets you use your existing hardware to send SMS. Connect an old Android phone or a USB modem, and you have your own SMS gateway.
+    Instead of paying per-message fees to services like Twilio or Vonage, Vendel lets you use your existing hardware to send SMS. Connect an old Android phone or a USB modem, and you have your own SMS gateway.
   </p>
 
   <p>
-    Ender provides:
+    Vendel provides:
   </p>
 
   <ul>
@@ -30,7 +30,7 @@ import DocsLayout from '../../layouts/DocsLayout.astro'
 
   <h2>Use cases</h2>
 
-  <p>Ender works great for:</p>
+  <p>Vendel works great for:</p>
 
   <ul>
     <li><strong>OTPs and verification codes</strong> - Send login codes from your app</li>
@@ -41,7 +41,7 @@ import DocsLayout from '../../layouts/DocsLayout.astro'
 
   <div class="not-prose my-8 alert alert-warning">
     <p>
-      <strong>Note:</strong> Ender is designed for transactional messages, not marketing or bulk SMS. Carriers may block your number if you send spam.
+      <strong>Note:</strong> Vendel is designed for transactional messages, not marketing or bulk SMS. Carriers may block your number if you send spam.
     </p>
   </div>
 
@@ -49,7 +49,7 @@ import DocsLayout from '../../layouts/DocsLayout.astro'
 
   <div class="not-prose my-8 grid gap-4 md:grid-cols-2">
     <div class="card card-default">
-      <h3 class="card-title">Ender Cloud</h3>
+      <h3 class="card-title">Vendel Cloud</h3>
       <p class="card-description">The easiest way to get started. No server required.</p>
       <ul class="card-list">
         <li>✓ Free plan available</li>
@@ -83,7 +83,7 @@ import DocsLayout from '../../layouts/DocsLayout.astro'
   <h2>How it works</h2>
 
   <ol>
-    <li><strong>Sign up or deploy</strong> - Use Ender Cloud or self-host on your server</li>
+    <li><strong>Sign up or deploy</strong> - Use Vendel Cloud or self-host on your server</li>
     <li><strong>Set up a device</strong> - Install our Android app or connect a USB modem</li>
     <li><strong>Send via API</strong> - Make HTTP requests to send messages</li>
     <li><strong>Track delivery</strong> - Get status updates via webhooks or polling</li>
@@ -92,7 +92,7 @@ import DocsLayout from '../../layouts/DocsLayout.astro'
   <h2>Architecture</h2>
 
   <pre><code>┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│   Your App  │────▶│   Ender     │────▶│   Device    │
+│   Your App  │────▶│   Vendel     │────▶│   Device    │
 │             │     │   Server    │     │  (Android/  │
 │  HTTP POST  │     │             │     │   Modem)    │
 └─────────────┘     └─────────────┘     └─────────────┘

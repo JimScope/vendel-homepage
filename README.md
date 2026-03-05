@@ -1,3 +1,3 @@
-# Ender Homepage
+# Vendel Homepage
 
-Landing page and documentation for Ender SMS Gateway.
+Landing page and documentation for Vendel SMS Gateway.

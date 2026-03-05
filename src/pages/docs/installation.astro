@@ -7,12 +7,12 @@ import CodeBlock from '../../components/CodeBlock.astro'
   <h1>Installation</h1>
 
   <p class="lead text-xl text-neutral-600">
-    Deploy Ender on your own server for production use.
+    Deploy Vendel on your own server for production use.
   </p>
 
   <div class="not-prose my-6 alert alert-info">
     <p>
-      <strong>Don't want to self-host?</strong> Try <button onclick="openWaitlistModal()" class="text-accent hover:underline">Ender Cloud</button> — free plan available, paid plans from $0.99/month.
+      <strong>Don't want to self-host?</strong> Try <button onclick="openWaitlistModal()" class="text-accent hover:underline">Vendel Cloud</button> — free plan available, paid plans from $0.99/month.
     </p>
   </div>
 
@@ -36,7 +36,7 @@ import CodeBlock from '../../components/CodeBlock.astro'
     filename="docker-compose.yml"
     code={`services:
   app:
-    image: ghcr.io/jimscope/ender:latest
+    image: ghcr.io/jimscope/vendel:latest
     environment:
       - ENVIRONMENT=production
       - FIRST_SUPERUSER=\${FIRST_SUPERUSER}
@@ -51,10 +51,10 @@ import CodeBlock from '../../components/CodeBlock.astro'
     ports:
       - "8090:8090"
     volumes:
-      - ender_data:/app/pb_data
+      - vendel_data:/app/pb_data
 
 volumes:
-  ender_data:`}
+  vendel_data:`}
   />
 
   <h3>2. Configure environment</h3>
@@ -110,7 +110,7 @@ SMTP_PASSWORD=your-smtp-password`}
       <tr>
         <td><code>FIRST_SUPERUSER</code></td>
         <td>Superuser email address</td>
-        <td>admin@ender.app</td>
+        <td>admin@vendel.cc</td>
       </tr>
       <tr>
         <td><code>FIRST_SUPERUSER_PASSWORD</code></td>
@@ -142,11 +142,11 @@ SMTP_PASSWORD=your-smtp-password`}
 
   <h2>Backup with Litestream</h2>
 
-  <p>Ender uses SQLite as its embedded database. For continuous backup to S3-compatible storage, set these optional environment variables:</p>
+  <p>Vendel uses SQLite as its embedded database. For continuous backup to S3-compatible storage, set these optional environment variables:</p>
 
   <CodeBlock
     lang="bash"
-    code={`LITESTREAM_REPLICA_URL=s3://my-bucket/ender/data
+    code={`LITESTREAM_REPLICA_URL=s3://my-bucket/vendel/data
 LITESTREAM_ACCESS_KEY_ID=your-access-key
 LITESTREAM_SECRET_ACCESS_KEY=your-secret-key`}
   />

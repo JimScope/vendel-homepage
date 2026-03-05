@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Ender Homepage — landing page, documentation, and design system for the Ender SMS gateway platform. Static site built with Astro.
+Vendel Homepage — landing page, documentation, and design system for the Vendel SMS gateway platform. Static site built with Astro.
 
 ## Commands
 
@@ -20,7 +20,7 @@ npm run preview              # Preview production build
 - **Framework**: Astro 5 (static site generation, zero JS by default)
 - **Styling**: Tailwind CSS v4 (CSS-first config via `@theme` in `global.css`)
 - **Typography plugin**: `@tailwindcss/typography` for prose styling in docs
-- **Code highlighting**: Shiki with custom `ender-dark` theme (`src/lib/code-theme.ts`)
+- **Code highlighting**: Shiki with custom `vendel-dark` theme (`src/lib/code-theme.ts`)
 - **LLM docs**: `@4hse/astro-llms-txt` generates `/llms.txt` for LLM-friendly content
 
 ### Key directories
@@ -43,25 +43,25 @@ npm run preview              # Preview production build
 
 ## Design System
 
-**`src/pages/design-system.astro`** is the single source of truth for the Ender visual language. It documents:
+**`src/pages/design-system.astro`** is the single source of truth for the Vendel visual language. It documents:
 
 - Colors (accent, background, text, neutral scale, code syntax)
 - Typography (Inter, Libre Baskerville, JetBrains Mono)
 - Logo (wordmark construction, icon, light/dark variants)
 - Buttons (primary, secondary, link)
 - Cards (default, featured, muted)
-- Code blocks (ender-dark Shiki theme, filename headers)
+- Code blocks (vendel-dark Shiki theme, filename headers)
 - Alerts (info, warning)
 - Patterns (dot pattern, accent dots/circles, dark sections)
 - Design tokens (all CSS custom properties, Google Fonts import, shadcn mapping)
 
-**All design tokens live in `src/styles/global.css`** inside the `@theme` block. This file is the canonical definition — the dashboard project (`../ender/frontend/src/index.css`) maps these same values to shadcn/ui semantic variables.
+**All design tokens live in `src/styles/global.css`** inside the `@theme` block. This file is the canonical definition — the dashboard project (`../vendel/frontend/src/index.css`) maps these same values to shadcn/ui semantic variables.
 
 ### When changing styles
 
 1. Update `src/styles/global.css` (the source of truth)
 2. Update `src/pages/design-system.astro` to reflect the change
-3. Propagate to the dashboard: update `../ender/frontend/src/index.css` with the same values
+3. Propagate to the dashboard: update `../vendel/frontend/src/index.css` with the same values
 
 ### Key design values
 

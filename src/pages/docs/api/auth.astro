@@ -14,9 +14,9 @@ import CodeBlock from '../../../components/CodeBlock.astro'
 
   <p>For server-to-server integrations, use an API key in the <code>X-API-Key</code> header:</p>
 
-  <CodeBlock lang="bash" code="X-API-Key: ek_your_api_key_here" />
+  <CodeBlock lang="bash" code="X-API-Key: vk_your_api_key_here" />
 
-  <p>API keys (prefixed <code>ek_</code>) are created in the dashboard and can be used to send SMS and access the API without a user session.</p>
+  <p>API keys (prefixed <code>vk_</code>) are created in the dashboard and can be used to send SMS and access the API without a user session.</p>
 
   <h2>JWT Authentication</h2>
 
@@ -47,7 +47,7 @@ import CodeBlock from '../../../components/CodeBlock.astro'
     </thead>
     <tbody>
       <tr>
-        <td><code>ek_</code></td>
+        <td><code>vk_</code></td>
         <td>Integration key</td>
         <td>Server-to-server API calls (send SMS, etc.)</td>
       </tr>
@@ -77,7 +77,7 @@ import CodeBlock from '../../../components/CodeBlock.astro'
 
   <h2>Rate limits</h2>
 
-  <p>Ender uses PocketBase's built-in rate limiter. The SMS send endpoint is limited to 30 requests per minute per user.</p>
+  <p>Vendel uses PocketBase's built-in rate limiter. The SMS send endpoint is limited to 30 requests per minute per user.</p>
 
   <table>
     <thead>

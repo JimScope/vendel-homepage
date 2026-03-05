@@ -1,5 +1,5 @@
 /**
- * Ender Code Theme
+ * Vendel Code Theme
  *
  * Custom Shiki theme matching the site's mint color palette.
  * Colors correspond to CSS variables in global.css:
@@ -13,8 +13,8 @@
  * --color-code-variable: #ccd4d0
  * --color-code-punctuation: #a0a8a4
  */
-export const enderTheme = {
-  name: 'ender-dark',
+export const vendelTheme = {
+  name: 'vendel-dark',
   type: 'dark' as const,
   colors: {
     'editor.background': '#222826',

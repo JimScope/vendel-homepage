@@ -10,7 +10,7 @@
  * <CodeBlock lang="json" filename="package.json" code='{"name": "app"}' />
  */
 import { Code } from 'astro:components'
-import { enderTheme } from '../lib/code-theme'
+import { vendelTheme } from '../lib/code-theme'
 
 interface Props {
   code: string
@@ -28,5 +28,5 @@ const { code, lang = 'bash', filename, class: className } = Astro.props
       {filename}
     </div>
   )}
-  <Code code={code.trim()} lang={lang} theme={enderTheme} />
+  <Code code={code.trim()} lang={lang} theme={vendelTheme} />
 </div>

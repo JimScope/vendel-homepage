@@ -7,7 +7,7 @@ import CodeBlock from "../../components/CodeBlock.astro";
     <h1>Android App</h1>
 
     <p class="lead text-xl text-neutral-600">
-        Turn any Android phone into an SMS gateway with the Ender app.
+        Turn any Android phone into an SMS gateway with the Vendel app.
     </p>
 
     <h2>Requirements</h2>
@@ -24,11 +24,11 @@ import CodeBlock from "../../components/CodeBlock.astro";
 
     <ol>
         <li>
-            Go to <a href="https://github.com/JimScope/ender-android/releases"
+            Go to <a href="https://github.com/JimScope/vendel-android/releases"
                 >GitHub Releases</a
             >
         </li>
-        <li>Download the latest <code>ender-vX.X.X.apk</code></li>
+        <li>Download the latest <code>vendel-vX.X.X.apk</code></li>
         <li>Enable "Install from unknown sources" in your phone settings</li>
         <li>Open the APK to install</li>
     </ol>
@@ -37,7 +37,7 @@ import CodeBlock from "../../components/CodeBlock.astro";
 
     <CodeBlock
         lang="bash"
-        code={`git clone https://github.com/JimScope/ender-android.git
+        code={`git clone https://github.com/JimScope/vendel-android.git
 cd android
 ./gradlew assembleRelease`}
     />
@@ -46,17 +46,17 @@ cd android
 
     <h3>1. Open the app</h3>
 
-    <p>Launch Ender and tap "Get Started".</p>
+    <p>Launch Vendel and tap "Get Started".</p>
 
     <h3>2. Enter server URL</h3>
 
-    <p>Enter your Ender server URL:</p>
+    <p>Enter your Vendel server URL:</p>
 
     <CodeBlock lang="bash" code="https://sms.yourdomain.com" />
 
     <h3>3. Log in</h3>
 
-    <p>Enter your Ender account credentials.</p>
+    <p>Enter your Vendel account credentials.</p>
 
     <h3>4. Grant permissions</h3>
 
@@ -77,7 +77,7 @@ cd android
         class="not-prose my-8 p-4 bg-amber-50 border border-amber-200 rounded-lg"
     >
         <p class="text-amber-800 text-sm">
-            <strong>Important:</strong> Disable battery optimization for Ender to
+            <strong>Important:</strong> Disable battery optimization for Vendel to
             ensure reliable message delivery when the screen is off.
         </p>
     </div>
@@ -87,7 +87,7 @@ cd android
     <p>Android aggressively kills background apps. To prevent this:</p>
 
     <ol>
-        <li>Go to Settings → Apps → Ender</li>
+        <li>Go to Settings → Apps → Vendel</li>
         <li>Tap "Battery"</li>
         <li>Select "Unrestricted" or "Don't optimize"</li>
     </ol>

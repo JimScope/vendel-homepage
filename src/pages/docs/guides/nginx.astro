@@ -20,11 +20,11 @@ sudo apt install nginx`}
 
   <h2>Configure site</h2>
 
-  <p>Ender serves both the API and frontend on a single port (8090), so the proxy config is straightforward. Create <code>/etc/nginx/sites-available/ender</code>:</p>
+  <p>Vendel serves both the API and frontend on a single port (8090), so the proxy config is straightforward. Create <code>/etc/nginx/sites-available/vendel</code>:</p>
 
   <CodeBlock
     lang="nginx"
-    filename="/etc/nginx/sites-available/ender"
+    filename="/etc/nginx/sites-available/vendel"
     code={`server {
     listen 80;
     server_name sms.yourdomain.com;
@@ -52,7 +52,7 @@ server {
 
   <CodeBlock
     lang="bash"
-    code={`sudo ln -s /etc/nginx/sites-available/ender /etc/nginx/sites-enabled/
+    code={`sudo ln -s /etc/nginx/sites-available/vendel /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl reload nginx`}
   />

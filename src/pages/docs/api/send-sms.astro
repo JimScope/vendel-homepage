@@ -7,7 +7,7 @@ import CodeBlock from '../../../components/CodeBlock.astro'
   <h1>Send SMS</h1>
 
   <p class="lead text-xl text-neutral-600">
-    Send an SMS message through the Ender API.
+    Send an SMS message through the Vendel API.
   </p>
 
   <div class="not-prose my-6 p-4 bg-neutral-100 rounded-lg">
@@ -80,7 +80,7 @@ import CodeBlock from '../../../components/CodeBlock.astro'
   <CodeBlock
     lang="bash"
     code={`curl -X POST https://your-server.com/api/sms/send \\
-  -H "X-API-Key: ek_your_api_key" \\
+  -H "X-API-Key: vk_your_api_key" \\
   -H "Content-Type: application/json" \\
   -d '{
     "recipients": ["+1234567890"],
@@ -190,7 +190,7 @@ import CodeBlock from '../../../components/CodeBlock.astro'
 response = requests.post(
     "https://your-server.com/api/sms/send",
     headers={
-        "X-API-Key": "ek_your_api_key",
+        "X-API-Key": "vk_your_api_key",
         "Content-Type": "application/json"
     },
     json={
@@ -209,7 +209,7 @@ print(response.json())`}
     code={`const response = await fetch("https://your-server.com/api/sms/send", {
   method: "POST",
   headers: {
-    "X-API-Key": "ek_your_api_key",
+    "X-API-Key": "vk_your_api_key",
     "Content-Type": "application/json"
   },
   body: JSON.stringify({

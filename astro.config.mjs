@@ -5,14 +5,14 @@ import astroLlmsTxt from '@4hse/astro-llms-txt';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://ender.jimscope.com',
+  site: 'https://vendel.cc',
   vite: {
     plugins: [tailwindcss()]
   },
   integrations: [
     astroLlmsTxt({
-      title: 'Ender SMS Gateway',
-      description: 'Documentation for Ender - self-hosted SMS gateway platform',
+      title: 'Vendel SMS Gateway',
+      description: 'Documentation for Vendel - self-hosted SMS gateway platform',
       mainSelector: 'main',
       ignoreSelectors: ['nav', 'footer', 'aside', '.sidebar'],
       docSet: [

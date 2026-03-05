@@ -13,8 +13,8 @@ import DocsLayout from "../../layouts/DocsLayout.astro";
     <h2>Overview</h2>
 
     <p>
-        The Ender modem agent is a lightweight Go binary that connects USB GSM
-        modems to your Ender instance. It receives message assignments in
+        The Vendel modem agent is a lightweight Go binary that connects USB GSM
+        modems to your Vendel instance. It receives message assignments in
         real-time via Server-Sent Events (SSE), sends SMS using AT commands, and
         reports delivery status back to the server.
     </p>
@@ -29,13 +29,13 @@ import DocsLayout from "../../layouts/DocsLayout.astro";
             Log out and back in for the group change to take effect.
         </li>
         <li>Go 1.21+ (only needed if building from source)</li>
-        <li>An Ender instance running and accessible from the agent host</li>
+        <li>An Vendel instance running and accessible from the agent host</li>
     </ul>
 
     <h2>Step 1: Create a modem device</h2>
 
     <p>
-        In the Ender dashboard, go to <strong>Devices</strong> and click <strong
+        In the Vendel dashboard, go to <strong>Devices</strong> and click <strong
             >Add Device</strong
         >. Select <strong>USB Modem</strong> as the device type, enter a name and
         the SIM card's phone number. Save the API key shown after creation — you'll
@@ -51,31 +51,31 @@ import DocsLayout from "../../layouts/DocsLayout.astro";
     </p>
 
     <div class="not-prose my-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        <a href="https://github.com/JimScope/ender/releases/latest/download/ender-modem-agent_linux_amd64.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+        <a href="https://github.com/JimScope/vendel/releases/latest/download/vendel-modem-agent_linux_amd64.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
             <h4 class="card-title">Linux x86_64</h4>
             <p class="card-description">amd64 &middot; .tar.gz</p>
         </a>
-        <a href="https://github.com/JimScope/ender/releases/latest/download/ender-modem-agent_linux_arm64.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+        <a href="https://github.com/JimScope/vendel/releases/latest/download/vendel-modem-agent_linux_arm64.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
             <h4 class="card-title">Linux ARM64</h4>
             <p class="card-description">arm64 &middot; .tar.gz</p>
         </a>
-        <a href="https://github.com/JimScope/ender/releases/latest/download/ender-modem-agent_linux_arm.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+        <a href="https://github.com/JimScope/vendel/releases/latest/download/vendel-modem-agent_linux_arm.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
             <h4 class="card-title">Linux ARM</h4>
             <p class="card-description">armv7 &middot; .tar.gz</p>
         </a>
-        <a href="https://github.com/JimScope/ender/releases/latest/download/ender-modem-agent_darwin_amd64.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+        <a href="https://github.com/JimScope/vendel/releases/latest/download/vendel-modem-agent_darwin_amd64.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
             <h4 class="card-title">macOS Intel</h4>
             <p class="card-description">amd64 &middot; .tar.gz</p>
         </a>
-        <a href="https://github.com/JimScope/ender/releases/latest/download/ender-modem-agent_darwin_arm64.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+        <a href="https://github.com/JimScope/vendel/releases/latest/download/vendel-modem-agent_darwin_arm64.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
             <h4 class="card-title">macOS Apple Silicon</h4>
             <p class="card-description">arm64 &middot; .tar.gz</p>
         </a>
-        <a href="https://github.com/JimScope/ender/releases/latest/download/ender-modem-agent_windows_amd64.zip" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+        <a href="https://github.com/JimScope/vendel/releases/latest/download/vendel-modem-agent_windows_amd64.zip" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
             <h4 class="card-title">Windows x86_64</h4>
             <p class="card-description">amd64 &middot; .zip</p>
         </a>
-        <a href="https://github.com/JimScope/ender/releases/latest/download/ender-modem-agent_windows_arm64.zip" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+        <a href="https://github.com/JimScope/vendel/releases/latest/download/vendel-modem-agent_windows_arm64.zip" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
             <h4 class="card-title">Windows ARM64</h4>
             <p class="card-description">arm64 &middot; .zip</p>
         </a>
@@ -84,18 +84,18 @@ import DocsLayout from "../../layouts/DocsLayout.astro";
     <p>Extract and install:</p>
 
     <pre><code># Linux / macOS
-tar -xzf ender-modem-agent_*.tar.gz
-sudo mv ender-modem-agent /usr/local/bin/
+tar -xzf vendel-modem-agent_*.tar.gz
+sudo mv vendel-modem-agent /usr/local/bin/
 
-# Windows — extract the .zip and add ender-modem-agent.exe to your PATH</code></pre>
+# Windows — extract the .zip and add vendel-modem-agent.exe to your PATH</code></pre>
 
     <h3>Option 2: Build from source</h3>
 
     <p>Requires Go 1.21+:</p>
 
-    <pre><code>git clone https://github.com/JimScope/ender.git
-cd ender/modem-agent
-go build -o ender-modem-agent .</code></pre>
+    <pre><code>git clone https://github.com/JimScope/vendel.git
+cd vendel/modem-agent
+go build -o vendel-modem-agent .</code></pre>
 
     <h2>Step 3: Configure</h2>
 
@@ -105,7 +105,7 @@ go build -o ender-modem-agent .</code></pre>
 
     <ul>
         <li>
-            <code>ENDER_URL</code> — Your Ender server URL (default: <code
+            <code>VENDEL_URL</code> — Your Vendel server URL (default: <code
                 >http://localhost:8090</code
             >)
         </li>
@@ -129,18 +129,18 @@ MODEMS=dk_abc123:/dev/ttyUSB0:/dev/ttyUSB1,dk_xyz789:/dev/ttyUSB2:/dev/ttyUSB3</
 
     <h2>Step 4: Run</h2>
 
-    <pre><code>ENDER_URL=https://sms.example.com MODEMS=dk_abc123:/dev/ttyUSB0:/dev/ttyUSB1 ./ender-modem-agent</code></pre>
+    <pre><code>VENDEL_URL=https://sms.example.com MODEMS=dk_abc123:/dev/ttyUSB0:/dev/ttyUSB1 ./vendel-modem-agent</code></pre>
 
     <p>Or use a <code>.env</code> file (copy from <code>.env.example</code>):</p>
 
     <pre><code>cp .env.example .env
 # Edit .env with your values
-./ender-modem-agent</code></pre>
+./vendel-modem-agent</code></pre>
 
     <h2>Docker deployment</h2>
 
     <p>
-        If you're already running Ender with Docker Compose, you can run the
+        If you're already running Vendel with Docker Compose, you can run the
         modem agent as an opt-in service instead of building from source. Add
         these variables to your <code>.env</code> file:
     </p>
@@ -156,7 +156,7 @@ MODEM_DEVICE_0=/dev/ttyUSB0</code></pre>
     <pre><code>docker compose --profile modem up -d</code></pre>
 
     <p>
-        The modem-agent container will wait for the Ender app to be healthy
+        The modem-agent container will wait for the Vendel app to be healthy
         before starting, and connects to the backend via Docker internal DNS
         (<code>http://app:8090</code>). The host serial device is mapped into
         the container automatically.
@@ -173,19 +173,19 @@ MODEM_DEVICE_0=/dev/ttyUSB0</code></pre>
         systemd service for production use so it starts automatically on boot:
     </p>
 
-    <pre><code># /etc/systemd/system/ender-modem-agent.service
+    <pre><code># /etc/systemd/system/vendel-modem-agent.service
 [Unit]
-Description=Ender Modem Agent
+Description=Vendel Modem Agent
 After=network-online.target
 Wants=network-online.target
 
 [Service]
 Type=simple
-User=ender
+User=vendel
 Group=dialout
-Environment=ENDER_URL=https://sms.example.com
+Environment=VENDEL_URL=https://sms.example.com
 Environment=MODEMS=dk_abc123:/dev/ttyUSB0:/dev/ttyUSB1
-ExecStart=/usr/local/bin/ender-modem-agent
+ExecStart=/usr/local/bin/vendel-modem-agent
 Restart=always
 RestartSec=5
 
@@ -193,7 +193,7 @@ RestartSec=5
 WantedBy=multi-user.target</code></pre>
 
     <pre><code>sudo systemctl daemon-reload
-sudo systemctl enable --now ender-modem-agent</code></pre>
+sudo systemctl enable --now vendel-modem-agent</code></pre>
 
     <h2>Multi-modem setup</h2>
 
@@ -216,7 +216,7 @@ sudo systemctl enable --now ender-modem-agent</code></pre>
 
     <p>
         The agent automatically monitors for incoming SMS on all connected
-        modems. Received messages are reported to Ender and trigger your
+        modems. Received messages are reported to Vendel and trigger your
         configured webhooks with the <code>sms_received</code> event.
     </p>
 
@@ -237,7 +237,7 @@ sudo systemctl enable --now ender-modem-agent</code></pre>
     <p>
         If your modem is not listed but supports standard AT commands for SMS
         (AT+CMGS, AT+CMGR), it should work. Open an issue on <a
-            href="https://github.com/JimScope/ender">GitHub</a
+            href="https://github.com/JimScope/vendel">GitHub</a
         > if you encounter compatibility problems.
     </p>
 </DocsLayout>

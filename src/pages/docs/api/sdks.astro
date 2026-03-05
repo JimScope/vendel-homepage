@@ -7,7 +7,7 @@ const jsSendSmsLog = 'const response = await client.sendSms(\n  ["+1234567890", 
 
 const jsGetQuota = 'const quota = await client.getQuota();\nconsole.log(`Plan: ${quota.plan}`);\nconsole.log(`SMS: ${quota.sms_sent_this_month}/${quota.max_sms_per_month}`);\nconsole.log(`Devices: ${quota.devices_registered}/${quota.max_devices}`);\nconsole.log(`Resets: ${quota.reset_date}`);'
 
-const jsErrorHandling = 'import { EnderClient, EnderQuotaError, EnderAPIError } from "ender-sdk";\n\ntry {\n  await client.sendSms(["+1234567890"], "Hello");\n} catch (e) {\n  if (e instanceof EnderQuotaError) {\n    console.log(`Quota exceeded: ${e.used}/${e.limit} used, ${e.available} remaining`);\n  } else if (e instanceof EnderAPIError) {\n    console.log(`API error [${e.statusCode}]: ${e.message}`);\n  }\n}'
+const jsErrorHandling = 'import { VendelClient, VendelQuotaError, VendelAPIError } from "vendel-sdk";\n\ntry {\n  await client.sendSms(["+1234567890"], "Hello");\n} catch (e) {\n  if (e instanceof VendelQuotaError) {\n    console.log(`Quota exceeded: ${e.used}/${e.limit} used, ${e.available} remaining`);\n  } else if (e instanceof VendelAPIError) {\n    console.log(`API error [${e.statusCode}]: ${e.message}`);\n  }\n}'
 ---
 
 <DocsLayout title="Client SDKs">
@@ -18,43 +18,43 @@ const jsErrorHandling = 'import { EnderClient, EnderQuotaError, EnderAPIError } 
   </p>
 
   <p>
-    The Ender SDKs provide a simple interface for sending SMS, checking quotas, and verifying
-    webhook signatures. They authenticate with integration API keys (<code>ek_</code> prefix)
+    The Vendel SDKs provide a simple interface for sending SMS, checking quotas, and verifying
+    webhook signatures. They authenticate with integration API keys (<code>vk_</code> prefix)
     — create one in the Dashboard under Settings → API Keys.
   </p>
 
   <h2>Installation</h2>
 
   <h3>Python</h3>
-  <CodeBlock lang="bash" code="pip install ender-sdk" />
+  <CodeBlock lang="bash" code="pip install vendel-sdk" />
 
   <h3>JavaScript / TypeScript</h3>
-  <CodeBlock lang="bash" code="npm install ender-sdk" />
+  <CodeBlock lang="bash" code="npm install vendel-sdk" />
   <p>
     Zero runtime dependencies — uses built-in <code>fetch</code> (Node 18+). TypeScript types included.
   </p>
 
   <h3>Go</h3>
-  <CodeBlock lang="bash" code="go get github.com/JimScope/ender-sdk-go" />
+  <CodeBlock lang="bash" code="go get github.com/JimScope/vendel-sdk-go" />
 
   <h2>Quick start</h2>
 
   <p>Send an SMS in three lines:</p>
 
   <h3>Python</h3>
-  <CodeBlock lang="python" code={`from ender_sdk import EnderClient
+  <CodeBlock lang="python" code={`from vendel_sdk import VendelClient
 
-client = EnderClient("https://sms.example.com", "ek_your_api_key")
-response = client.send_sms(["+1234567890"], "Hello from Ender!")`} />
+client = VendelClient("https://sms.example.com", "vk_your_api_key")
+response = client.send_sms(["+1234567890"], "Hello from Vendel!")`} />
 
   <h3>JavaScript / TypeScript</h3>
-  <CodeBlock lang="typescript" code={`import { EnderClient } from "ender-sdk";
+  <CodeBlock lang="typescript" code={`import { VendelClient } from "vendel-sdk";
 
-const client = new EnderClient({
+const client = new VendelClient({
   baseUrl: "https://sms.example.com",
-  apiKey: "ek_your_api_key",
+  apiKey: "vk_your_api_key",
 });
-const response = await client.sendSms(["+1234567890"], "Hello from Ender!");`} />
+const response = await client.sendSms(["+1234567890"], "Hello from Vendel!");`} />
 
   <h3>Go</h3>
   <CodeBlock lang="go" code={`package main
@@ -62,14 +62,14 @@ const response = await client.sendSms(["+1234567890"], "Hello from Ender!");`} /
 import (
 	"context"
 	"fmt"
-	ender "github.com/JimScope/ender-sdk-go"
+	vendel "github.com/JimScope/vendel-sdk-go"
 )
 
 func main() {
-	client := ender.NewClient("https://sms.example.com", "ek_your_api_key")
-	resp, err := client.SendSMS(context.Background(), ender.SendSMSRequest{
+	client := vendel.NewClient("https://sms.example.com", "vk_your_api_key")
+	resp, err := client.SendSMS(context.Background(), vendel.SendSMSRequest{
 		Recipients: []string{"+1234567890"},
-		Body:       "Hello from Ender!",
+		Body:       "Hello from Vendel!",
 	})
 	if err != nil {
 		panic(err)
@@ -96,7 +96,7 @@ print(f"Batch: {response.batch_id}, Messages: {response.message_ids}")`} />
   <CodeBlock lang="typescript" code={jsSendSmsLog} />
 
   <h3>Go</h3>
-  <CodeBlock lang="go" code={`resp, err := client.SendSMS(ctx, ender.SendSMSRequest{
+  <CodeBlock lang="go" code={`resp, err := client.SendSMS(ctx, vendel.SendSMSRequest{
 	Recipients: []string{"+1234567890", "+0987654321"},
 	Body:       "Your order has shipped!",
 	DeviceID:   "optional_device_id",
@@ -128,7 +128,7 @@ fmt.Printf("Resets: %s\\n", quota.ResetDate)`} />
 
   <p>
     When you receive a webhook, verify the <code>X-Webhook-Signature</code> header to ensure
-    it came from Ender. The signature is an HMAC-SHA256 hex digest of the request body.
+    it came from Vendel. The signature is an HMAC-SHA256 hex digest of the request body.
   </p>
 
   <div class="alert alert-warning">
@@ -137,7 +137,7 @@ fmt.Printf("Resets: %s\\n", quota.ResetDate)`} />
   </div>
 
   <h3>Python (Flask)</h3>
-  <CodeBlock lang="python" code={`from ender_sdk import verify_webhook_signature
+  <CodeBlock lang="python" code={`from vendel_sdk import verify_webhook_signature
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
@@ -155,7 +155,7 @@ def webhook():
     return "OK", 200`} />
 
   <h3>JavaScript / TypeScript (Express)</h3>
-  <CodeBlock lang="typescript" code={`import { verifyWebhookSignature } from "ender-sdk";
+  <CodeBlock lang="typescript" code={`import { verifyWebhookSignature } from "vendel-sdk";
 import express from "express";
 
 const app = express();
@@ -179,14 +179,14 @@ app.post("/webhook", (req, res) => {
   <CodeBlock lang="go" code={`import (
 	"io"
 	"net/http"
-	ender "github.com/JimScope/ender-sdk-go"
+	vendel "github.com/JimScope/vendel-sdk-go"
 )
 
 func webhookHandler(w http.ResponseWriter, r *http.Request) {
 	body, _ := io.ReadAll(r.Body)
 	signature := r.Header.Get("X-Webhook-Signature")
 
-	if !ender.VerifyWebhookSignature(string(body), signature, "your_webhook_secret") {
+	if !vendel.VerifyWebhookSignature(string(body), signature, "your_webhook_secret") {
 		http.Error(w, "Invalid signature", http.StatusUnauthorized)
 		return
 	}
@@ -203,13 +203,13 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
   </p>
 
   <h3>Python</h3>
-  <CodeBlock lang="python" code={`from ender_sdk import EnderClient, EnderAPIError, EnderQuotaError
+  <CodeBlock lang="python" code={`from vendel_sdk import VendelClient, VendelAPIError, VendelQuotaError
 
 try:
     client.send_sms(["+1234567890"], "Hello")
-except EnderQuotaError as e:
+except VendelQuotaError as e:
     print(f"Quota exceeded: {e.used}/{e.limit} used, {e.available} remaining")
-except EnderAPIError as e:
+except VendelAPIError as e:
     print(f"API error [{e.status_code}]: {e.message}")`} />
 
   <h3>JavaScript / TypeScript</h3>
@@ -218,11 +218,11 @@ except EnderAPIError as e:
   <h3>Go</h3>
   <CodeBlock lang="go" code={`resp, err := client.SendSMS(ctx, req)
 if err != nil {
-	if ender.IsQuotaError(err) {
-		qe := err.(*ender.QuotaError)
+	if vendel.IsQuotaError(err) {
+		qe := err.(*vendel.QuotaError)
 		fmt.Printf("Quota exceeded: %d/%d used, %d remaining\\n", qe.Used, qe.Limit, qe.Available)
-	} else if ender.IsAPIError(err) {
-		ae := err.(*ender.EnderError)
+	} else if vendel.IsAPIError(err) {
+		ae := err.(*vendel.VendelError)
 		fmt.Printf("API error [%d]: %s\\n", ae.StatusCode, ae.Message)
 	} else {
 		fmt.Printf("Network error: %v\\n", err)
