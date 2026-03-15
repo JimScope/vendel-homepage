@@ -20,12 +20,13 @@ import CodeBlock from '../../components/CodeBlock.astro'
 
   <ul>
     <li>Linux server (Ubuntu 22.04+ recommended)</li>
-    <li>Docker and Docker Compose v2</li>
     <li>At least 512MB RAM, 5GB disk</li>
     <li>Domain name with SSL certificate</li>
   </ul>
 
-  <h2>Docker Compose (Recommended)</h2>
+  <h2>Option 1: Docker Compose (Recommended)</h2>
+
+  <p>Requires <a href="https://docs.docker.com/engine/install/">Docker</a> and Docker Compose v2.</p>
 
   <h3>1. Create docker-compose.yml</h3>
 
@@ -43,7 +44,8 @@ import CodeBlock from '../../components/CodeBlock.astro'
       - FIRST_SUPERUSER_PASSWORD=\${FIRST_SUPERUSER_PASSWORD}
       - APP_URL=https://\${DOMAIN}
       - FRONTEND_URL=https://\${DOMAIN}
-      - FIREBASE_SERVICE_ACCOUNT_JSON=\${FIREBASE_SERVICE_ACCOUNT_JSON}
+      - WEBHOOK_ENCRYPTION_KEY=\${WEBHOOK_ENCRYPTION_KEY:-}
+      - FIREBASE_SERVICE_ACCOUNT_JSON=\${FIREBASE_SERVICE_ACCOUNT_JSON:-}
       - SMTP_HOST=\${SMTP_HOST:-}
       - SMTP_PORT=\${SMTP_PORT:-}
       - SMTP_USERNAME=\${SMTP_USERNAME:-}
@@ -68,8 +70,9 @@ volumes:
 FIRST_SUPERUSER=admin@yourdomain.com
 FIRST_SUPERUSER_PASSWORD=your-secure-password
 DOMAIN=sms.yourdomain.com
+WEBHOOK_ENCRYPTION_KEY=your-random-32-character-string
 
-# Firebase (required for push notifications to devices)
+# Firebase (required for push notifications to Android devices)
 FIREBASE_SERVICE_ACCOUNT_JSON={"type":"service_account",...}
 
 # SMTP (optional, for email features)
@@ -87,9 +90,138 @@ SMTP_PASSWORD=your-smtp-password`}
 
   <p>Open the dashboard at <code>https://sms.yourdomain.com</code> (or <code>http://localhost:8090</code> if testing locally). Log in with the superuser credentials from your <code>.env</code> file. The PocketBase admin panel is available at <code>/_/</code>.</p>
 
+  <h3>5. Update to a new version</h3>
+
+  <CodeBlock
+    lang="bash"
+    code={`docker compose pull
+docker compose up -d`}
+  />
+
+  <h2>Option 2: Standalone Binary</h2>
+
+  <p>No Docker needed. Download a single archive that contains the server binary and the pre-built frontend.</p>
+
+  <h3>1. Download</h3>
+
+  <p>Go to <a href="https://github.com/JimScope/vendel/releases">GitHub Releases</a> and download the archive for your platform:</p>
+
+  <div class="not-prose my-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+    <a href="https://github.com/JimScope/vendel/releases/latest/download/vendel_linux_amd64.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+      <h4 class="card-title">Linux x86_64</h4>
+      <p class="card-description">amd64 &middot; .tar.gz</p>
+    </a>
+    <a href="https://github.com/JimScope/vendel/releases/latest/download/vendel_linux_arm64.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+      <h4 class="card-title">Linux ARM64</h4>
+      <p class="card-description">Raspberry Pi 4+, Oracle Cloud &middot; .tar.gz</p>
+    </a>
+    <a href="https://github.com/JimScope/vendel/releases/latest/download/vendel_linux_arm.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+      <h4 class="card-title">Linux ARM</h4>
+      <p class="card-description">armv7 &middot; .tar.gz</p>
+    </a>
+    <a href="https://github.com/JimScope/vendel/releases/latest/download/vendel_darwin_amd64.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+      <h4 class="card-title">macOS Intel</h4>
+      <p class="card-description">amd64 &middot; .tar.gz</p>
+    </a>
+    <a href="https://github.com/JimScope/vendel/releases/latest/download/vendel_darwin_arm64.tar.gz" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+      <h4 class="card-title">macOS Apple Silicon</h4>
+      <p class="card-description">arm64 &middot; .tar.gz</p>
+    </a>
+    <a href="https://github.com/JimScope/vendel/releases/latest/download/vendel_windows_amd64.zip" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+      <h4 class="card-title">Windows x86_64</h4>
+      <p class="card-description">amd64 &middot; .zip</p>
+    </a>
+  </div>
+
+  <h3>2. Extract</h3>
+
+  <CodeBlock
+    lang="bash"
+    code={`tar xzf vendel_linux_amd64.tar.gz
+ls
+# vendel        <- server binary
+# pb_public/    <- pre-built frontend`}
+  />
+
+  <h3>3. Configure environment</h3>
+
+  <p>Create a <code>.env</code> file in the same directory as the binary:</p>
+
+  <CodeBlock
+    lang="bash"
+    filename=".env"
+    code={`ENVIRONMENT=production
+FIRST_SUPERUSER=admin@yourdomain.com
+FIRST_SUPERUSER_PASSWORD=your-secure-password
+WEBHOOK_ENCRYPTION_KEY=your-random-32-character-string
+APP_URL=https://yourdomain.com
+FRONTEND_URL=https://yourdomain.com`}
+  />
+
+  <p>Or export them directly:</p>
+
+  <CodeBlock
+    lang="bash"
+    code={`export WEBHOOK_ENCRYPTION_KEY="your-random-32-character-string"
+export FIRST_SUPERUSER="admin@yourdomain.com"
+export FIRST_SUPERUSER_PASSWORD="your-secure-password"
+export APP_URL="https://yourdomain.com"
+export FRONTEND_URL="https://yourdomain.com"`}
+  />
+
+  <h3>4. Start the server</h3>
+
+  <CodeBlock lang="bash" code="./vendel serve --http=0.0.0.0:8090" />
+
+  <p>PocketBase creates a <code>pb_data/</code> directory for the SQLite database on first run. The dashboard is available at <code>http://localhost:8090</code>.</p>
+
+  <h3>5. Run as a systemd service</h3>
+
+  <p>For production, run Vendel as a systemd service so it starts on boot and restarts on failure:</p>
+
+  <CodeBlock
+    lang="ini"
+    filename="/etc/systemd/system/vendel.service"
+    code={`[Unit]
+Description=Vendel SMS Gateway
+After=network.target
+
+[Service]
+Type=simple
+User=vendel
+WorkingDirectory=/opt/vendel
+ExecStart=/opt/vendel/vendel serve --http=0.0.0.0:8090
+EnvironmentFile=/opt/vendel/.env
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target`}
+  />
+
+  <CodeBlock lang="bash" code="sudo systemctl enable --now vendel" />
+
+  <h3>6. Update to a new version</h3>
+
+  <p>Download the new release, replace the binary and <code>pb_public/</code> folder, then restart:</p>
+
+  <CodeBlock
+    lang="bash"
+    code={`tar xzf vendel_linux_amd64.tar.gz
+sudo systemctl restart vendel`}
+  />
+
   <h2>Reverse Proxy Setup</h2>
 
-  <p>See <a href="/docs/guides/nginx">Nginx Reverse Proxy</a> for SSL termination and proxy configuration.</p>
+  <p>Vendel runs on port <code>8090</code>. Place a reverse proxy in front for HTTPS. See <a href="/docs/guides/nginx">Nginx Reverse Proxy</a> for a full guide, or use Caddy for automatic SSL:</p>
+
+  <CodeBlock
+    lang="text"
+    filename="Caddyfile"
+    code={`yourdomain.com {
+    reverse_proxy localhost:8090
+}`}
+  />
 
   <h2>Environment Variables</h2>
 
@@ -118,6 +250,11 @@ SMTP_PASSWORD=your-smtp-password`}
         <td>changethis</td>
       </tr>
       <tr>
+        <td><code>WEBHOOK_ENCRYPTION_KEY</code></td>
+        <td>AES key for webhook secret encryption (random 32+ char string)</td>
+        <td>-</td>
+      </tr>
+      <tr>
         <td><code>APP_URL</code></td>
         <td>Public URL of the application</td>
         <td>http://localhost:8090</td>
@@ -129,12 +266,17 @@ SMTP_PASSWORD=your-smtp-password`}
       </tr>
       <tr>
         <td><code>FIREBASE_SERVICE_ACCOUNT_JSON</code></td>
-        <td>Firebase service account JSON for FCM</td>
+        <td>Firebase service account JSON for FCM push notifications</td>
         <td>-</td>
       </tr>
       <tr>
-        <td><code>WEBHOOK_ENCRYPTION_KEY</code></td>
-        <td>AES key for webhook secret encryption</td>
+        <td><code>SMTP_HOST</code> / <code>SMTP_PORT</code></td>
+        <td>SMTP server for sending emails</td>
+        <td>localhost:1025</td>
+      </tr>
+      <tr>
+        <td><code>SMTP_USERNAME</code> / <code>SMTP_PASSWORD</code></td>
+        <td>SMTP credentials</td>
         <td>-</td>
       </tr>
     </tbody>
@@ -153,22 +295,12 @@ LITESTREAM_SECRET_ACCESS_KEY=your-secret-key`}
 
   <p>When set, Litestream automatically streams WAL changes to your S3 bucket and restores on startup if needed.</p>
 
-  <h2>Updates</h2>
-
-  <p>To update to the latest version:</p>
-
-  <CodeBlock
-    lang="bash"
-    code={`docker compose pull
-docker compose up -d`}
-  />
-
   <h2>Next steps</h2>
 
   <ul>
     <li><a href="/docs/android-app">Android App</a> - Set up your first device</li>
     <li><a href="/docs/usb-modems">USB Modems</a> - Connect USB GSM modems (Docker or standalone)</li>
-    <li><a href="/docs/guides/nginx">Nginx Guide</a> - Configure SSL</li>
-    <li><a href="/docs/guides/docker">Docker Guide</a> - Advanced configuration</li>
+    <li><a href="/docs/guides/nginx">Nginx Guide</a> - Configure SSL with Nginx</li>
+    <li><a href="/docs/guides/docker">Docker Guide</a> - Advanced Docker configuration</li>
   </ul>
 </DocsLayout>
