@@ -22,16 +22,39 @@ import CodeBlock from "../../components/CodeBlock.astro";
 
     <h3>Option 1: Download APK</h3>
 
+    <p>
+        Download the latest release for your device architecture from <a href="https://github.com/JimScope/vendel-android/releases">GitHub Releases</a>:
+    </p>
+
+    <div class="not-prose my-6 grid gap-3 sm:grid-cols-2">
+        <a href="https://github.com/JimScope/vendel-android/releases" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+            <h4 class="card-title">ARM64 (recommended)</h4>
+            <p class="card-description">arm64-v8a &middot; Most modern devices</p>
+        </a>
+        <a href="https://github.com/JimScope/vendel-android/releases" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+            <h4 class="card-title">ARM 32-bit</h4>
+            <p class="card-description">armeabi-v7a &middot; Older devices</p>
+        </a>
+        <a href="https://github.com/JimScope/vendel-android/releases" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+            <h4 class="card-title">x86_64</h4>
+            <p class="card-description">x86_64 &middot; Emulators</p>
+        </a>
+        <a href="https://github.com/JimScope/vendel-android/releases" class="card card-default no-underline hover:border-[var(--color-accent)]" style="transition: border-color 0.2s">
+            <h4 class="card-title">Universal</h4>
+            <p class="card-description">All architectures &middot; Larger file</p>
+        </a>
+    </div>
+
     <ol>
-        <li>
-            Go to <a href="https://github.com/JimScope/vendel-android/releases"
-                >GitHub Releases</a
-            >
-        </li>
-        <li>Download the latest <code>vendel-vX.X.X.apk</code></li>
         <li>Enable "Install from unknown sources" in your phone settings</li>
-        <li>Open the APK to install</li>
+        <li>Open the downloaded APK to install</li>
     </ol>
+
+    <div class="not-prose my-6 alert alert-info">
+        <p>
+            <strong>Not sure which to pick?</strong> Most modern phones use <strong>ARM64 (arm64-v8a)</strong>. If in doubt, download the <strong>Universal</strong> APK — it works on all devices but is larger.
+        </p>
+    </div>
 
     <h3>Option 2: Build from source</h3>
 
