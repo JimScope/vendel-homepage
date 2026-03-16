@@ -76,4 +76,4 @@ npm run preview              # Preview production build
 - Components are `.astro` files with vanilla JS for interactivity (no framework)
 - Docs are written as Astro markup, not Markdown content collections
 - Use existing CSS classes from `global.css` (`.btn`, `.card`, `.alert`, `.code-block`, etc.) rather than inline Tailwind for component patterns
-- "Dashboard" CTAs open `WaitlistModal` (cloud version not yet live)
+- "Dashboard" CTAs link to `https://app.vendel.cc`
