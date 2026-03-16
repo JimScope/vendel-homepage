@@ -226,7 +226,7 @@ import CodeBlock from '../components/CodeBlock.astro'
     <section id="logo" class="py-16 lg:py-20 border-t border-neutral-200">
       <div class="max-w-7xl mx-auto px-6 lg:px-8">
         <h2 class="font-serif text-3xl font-bold text-neutral-900 mb-2">Logo</h2>
-        <p class="text-neutral-600 mb-10 max-w-xl">The Vendel wordmark uses Libre Baskerville bold uppercase with accent-colored colons. The icon is four mint dots arranged in a square.</p>
+        <p class="text-neutral-600 mb-10 max-w-xl">The Vendel wordmark uses Libre Baskerville bold uppercase with accent-colored colons. The icon combines four mint dots (colons) with a centered serif capital V.</p>
 
         <div class="grid sm:grid-cols-2 gap-6 mb-10">
           <!-- Wordmark on light -->
@@ -264,9 +264,16 @@ import CodeBlock from '../components/CodeBlock.astro'
         <!-- Construction -->
         <h3 class="ds-label mb-4 mt-10">Construction</h3>
         <div class="bg-white rounded-lg border border-neutral-200 p-6 max-w-lg font-mono text-sm text-neutral-600 space-y-2">
+          <p class="font-bold text-neutral-800 mb-1">Wordmark</p>
           <p><span class="text-[#2dd4a8] font-bold">:</span> &mdash; Accent colon, <code class="ds-code">#2dd4a8</code>, bold, offset <code class="ds-code">-top-[0.15em]</code></p>
           <p><span class="font-serif font-bold uppercase">Vendel</span> &mdash; Libre Baskerville, bold, uppercase, tight tracking</p>
           <p><span class="text-[#2dd4a8] font-bold">:</span> &mdash; Same accent colon, mirrored</p>
+          <p class="pt-2 border-t border-neutral-200 font-bold text-neutral-800 mb-1 mt-3">Icon</p>
+          <p><span class="text-[#2dd4a8]">&#x25CF; &#x25CF; &#x25CF; &#x25CF;</span> &mdash; Four circles (colons) at corners, <code class="ds-code">#2dd4a8</code></p>
+          <p><span class="font-serif font-bold text-[#181c1b]">V</span> &mdash; Libre Baskerville Bold V, centered, <code class="ds-code">#181c1b</code>, overlapping colons</p>
+          <p>Light bg: <code class="ds-code">#edf5f1</code> &middot; Dark bg: <code class="ds-code">#222826</code></p>
+          <p>Light V: <code class="ds-code">#181c1b</code> &middot; Dark V: <code class="ds-code">#ffffff</code></p>
+          <p>SVG uses <code class="ds-code">prefers-color-scheme</code> media query for automatic switching</p>
           <p class="pt-2 border-t border-neutral-200 text-neutral-400">Minimum clear space: 1em on all sides</p>
         </div>
       </div>
