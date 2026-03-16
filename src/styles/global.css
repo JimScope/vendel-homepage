@@ -33,6 +33,14 @@
   --color-neutral-900: #181c1b;
   --color-neutral-950: #0c0f0e;
 
+  /* Dark theme */
+  --color-dark-bg: #0c0f0e;
+  --color-dark-surface: #181c1b;
+  --color-dark-surface-alt: #222826;
+  --color-dark-secondary: #2a2e2d;
+  --color-dark-border: #3a3e3d;
+  --color-dark-text: #f7faf9;
+
   /* Code block syntax highlighting colors */
   --color-code-bg: #222826;
   --color-code-text: #edf5f1;
