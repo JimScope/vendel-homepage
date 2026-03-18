@@ -100,7 +100,7 @@ docker compose up -d`}
 
   <h2>Option 2: Standalone Binary</h2>
 
-  <p>No Docker needed. Download a single archive that contains the server binary and the pre-built frontend.</p>
+  <p>No Docker needed. Download a single self-contained binary with the frontend already embedded.</p>
 
   <h3>1. Download</h3>
 
@@ -139,8 +139,7 @@ docker compose up -d`}
     lang="bash"
     code={`tar xzf vendel_linux_amd64.tar.gz
 ls
-# vendel        <- server binary
-# pb_public/    <- pre-built frontend`}
+# vendel        <- server binary (frontend embedded)`}
   />
 
   <h3>3. Configure environment</h3>
@@ -203,7 +202,7 @@ WantedBy=multi-user.target`}
 
   <h3>6. Update to a new version</h3>
 
-  <p>Download the new release, replace the binary and <code>pb_public/</code> folder, then restart:</p>
+  <p>Download the new release, replace the binary, then restart:</p>
 
   <CodeBlock
     lang="bash"
