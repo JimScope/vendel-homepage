@@ -129,7 +129,7 @@ MODEMS=dk_abc123:/dev/ttyUSB0:/dev/ttyUSB1,dk_xyz789:/dev/ttyUSB2:/dev/ttyUSB3</
 
     <h2>Step 4: Run</h2>
 
-    <pre><code>VENDEL_URL=https://sms.example.com MODEMS=dk_abc123:/dev/ttyUSB0:/dev/ttyUSB1 ./vendel-modem-agent</code></pre>
+    <pre><code>VENDEL_URL=https://api.vendel.cc MODEMS=dk_abc123:/dev/ttyUSB0:/dev/ttyUSB1 ./vendel-modem-agent</code></pre>
 
     <p>Or use a <code>.env</code> file (copy from <code>.env.example</code>):</p>
 
@@ -183,7 +183,7 @@ Wants=network-online.target
 Type=simple
 User=vendel
 Group=dialout
-Environment=VENDEL_URL=https://sms.example.com
+Environment=VENDEL_URL=https://api.vendel.cc
 Environment=MODEMS=dk_abc123:/dev/ttyUSB0:/dev/ttyUSB1
 ExecStart=/usr/local/bin/vendel-modem-agent
 Restart=always
