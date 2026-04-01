@@ -42,6 +42,7 @@ import CodeBlock from '../components/CodeBlock.astro'
           <a href="#typography" class="btn btn-secondary text-sm">Typography</a>
           <a href="#logo" class="btn btn-secondary text-sm">Logo</a>
           <a href="#buttons" class="btn btn-secondary text-sm">Buttons</a>
+          <a href="#pills" class="btn btn-secondary text-sm">Pills</a>
           <a href="#cards" class="btn btn-secondary text-sm">Cards</a>
           <a href="#code" class="btn btn-secondary text-sm">Code Blocks</a>
           <a href="#alerts" class="btn btn-secondary text-sm">Alerts</a>
@@ -354,6 +355,55 @@ import CodeBlock from '../components/CodeBlock.astro'
               <a href="#" class="btn btn-link">Text link</a>
             </div>
             <p class="text-xs text-neutral-400 font-mono">.btn .btn-link</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════
+         Pills / Badges
+         ═══════════════════════════════════════════════════════ -->
+    <section id="pills" class="py-16 lg:py-20 border-t border-neutral-200">
+      <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <h2 class="font-serif text-3xl font-bold text-neutral-900 mb-2">Pills</h2>
+        <p class="text-neutral-600 mb-10 max-w-xl">Inline status indicators and labels. Rounded-full shape with tinted backgrounds for clear visual hierarchy.</p>
+
+        <div class="space-y-10">
+          <!-- Accent -->
+          <div>
+            <h3 class="ds-label mb-4">Accent &mdash; Positive status, active states</h3>
+            <div class="flex flex-wrap items-center gap-3 mb-3">
+              <span class="pill pill-accent">
+                <svg class="pill-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+                Set via env
+              </span>
+              <span class="pill pill-accent">Active</span>
+              <span class="pill pill-accent">Configured</span>
+            </div>
+            <p class="text-xs text-neutral-400 font-mono">.pill .pill-accent</p>
+            <p class="text-xs text-neutral-500 mt-1">Light: neutral-700 text on brand/15 bg (7.5:1 contrast). Dark: brand text on brand/20 bg (5.2:1).</p>
+          </div>
+
+          <!-- Neutral -->
+          <div>
+            <h3 class="ds-label mb-4">Neutral &mdash; Informational, metadata</h3>
+            <div class="flex flex-wrap items-center gap-3 mb-3">
+              <span class="pill pill-neutral">Default</span>
+              <span class="pill pill-neutral">v2.1.0</span>
+              <span class="pill pill-neutral">Monthly</span>
+            </div>
+            <p class="text-xs text-neutral-400 font-mono">.pill .pill-neutral</p>
+          </div>
+
+          <!-- Destructive -->
+          <div>
+            <h3 class="ds-label mb-4">Destructive &mdash; Errors, warnings</h3>
+            <div class="flex flex-wrap items-center gap-3 mb-3">
+              <span class="pill pill-destructive">Failed</span>
+              <span class="pill pill-destructive">Expired</span>
+              <span class="pill pill-destructive">Overdue</span>
+            </div>
+            <p class="text-xs text-neutral-400 font-mono">.pill .pill-destructive</p>
           </div>
         </div>
       </div>
@@ -742,6 +792,45 @@ console.log(data.id); // "msg_abc123"`}
     border: 1px solid #e0e8e4;
     border-radius: 0.5rem;
     padding: 1.5rem;
+  }
+
+  /* ── Pills ────────────────────────────────────────── */
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    border-radius: 9999px;
+    padding: 0.125rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .pill-icon {
+    width: 0.75rem;
+    height: 0.75rem;
+    flex-shrink: 0;
+  }
+
+  /* Accent: mint bg + dark text (light), mint bg + mint text (dark) */
+  .pill-accent {
+    background: rgba(45, 212, 168, 0.15);
+    color: #383e3c; /* neutral-700 — 7.5:1 on accent bg */
+  }
+  .pill-accent .pill-icon {
+    color: #2dd4a8;
+  }
+
+  /* Neutral: muted bg + muted-foreground text */
+  .pill-neutral {
+    background: #e0e8e4; /* neutral-200 */
+    color: #545c58;      /* neutral-600 */
+  }
+
+  /* Destructive: red tint bg + red text */
+  .pill-destructive {
+    background: rgba(220, 38, 38, 0.1);
+    color: #b91c1c; /* red-700 — high contrast on light red bg */
   }
 </style>
 </Layout>
