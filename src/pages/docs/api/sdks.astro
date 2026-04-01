@@ -44,14 +44,14 @@ const jsErrorHandling = 'import { VendelClient, VendelQuotaError, VendelAPIError
   <h3>Python</h3>
   <CodeBlock lang="python" code={`from vendel_sdk import VendelClient
 
-client = VendelClient("https://api.vendel.cc", "vk_your_api_key")
+client = VendelClient("https://app.vendel.cc", "vk_your_api_key")
 response = client.send_sms(["+1234567890"], "Hello from Vendel!")`} />
 
   <h3>JavaScript / TypeScript</h3>
   <CodeBlock lang="typescript" code={`import { VendelClient } from "vendel-sdk";
 
 const client = new VendelClient({
-  baseUrl: "https://api.vendel.cc",
+  baseUrl: "https://app.vendel.cc",
   apiKey: "vk_your_api_key",
 });
 const response = await client.sendSms(["+1234567890"], "Hello from Vendel!");`} />
@@ -66,7 +66,7 @@ import (
 )
 
 func main() {
-	client := vendel.NewClient("https://api.vendel.cc", "vk_your_api_key")
+	client := vendel.NewClient("https://app.vendel.cc", "vk_your_api_key")
 	resp, err := client.SendSMS(context.Background(), vendel.SendSMSRequest{
 		Recipients: []string{"+1234567890"},
 		Body:       "Hello from Vendel!",
