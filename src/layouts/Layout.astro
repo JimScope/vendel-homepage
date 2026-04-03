@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css'
+import AnnouncementBanner from '../components/AnnouncementBanner.astro'
 
 interface Props {
   title: string
@@ -25,6 +26,7 @@ const { title, description = 'Vendel - SMS Gateway Platform' } = Astro.props
     <title>{title}</title>
   </head>
   <body class="antialiased">
+    <AnnouncementBanner />
     <slot />
   </body>
 </html>

@@ -1,0 +1,62 @@
+---
+---
+
+<div id="announcement-banner" class="hidden">
+  <div class="bg-[#2dd4a8] text-neutral-900">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-2 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2 min-w-0 text-sm font-medium">
+        <svg class="size-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+        <span id="banner-text" class="truncate"></span>
+      </div>
+      <button id="banner-dismiss" type="button" class="shrink-0 p-0.5 rounded hover:bg-black/10 transition-colors" aria-label="Close">
+        <svg class="size-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  async function initBanner() {
+    try {
+      const res = await fetch('https://app.vendel.cc/api/utils/app-settings')
+      if (!res.ok) return
+      const data = await res.json()
+
+      const text = data.banner_text
+      if (!text) return
+
+      // Check if dismissed this specific banner
+      const key = 'banner-dismissed-' + btoa(text).slice(0, 16)
+      if (sessionStorage.getItem(key)) return
+
+      const banner = document.getElementById('announcement-banner')
+      const textEl = document.getElementById('banner-text')
+      const dismissBtn = document.getElementById('banner-dismiss')
+      if (!banner || !textEl || !dismissBtn) return
+
+      // Set content — wrap in link if URL provided
+      if (data.banner_url) {
+        const link = document.createElement('a')
+        link.href = data.banner_url
+        link.target = '_blank'
+        link.rel = 'noopener noreferrer'
+        link.className = 'underline underline-offset-2'
+        link.textContent = text
+        textEl.replaceWith(link)
+      } else {
+        textEl.textContent = text
+      }
+
+      banner.classList.remove('hidden')
+
+      dismissBtn.addEventListener('click', () => {
+        banner.classList.add('hidden')
+        sessionStorage.setItem(key, '1')
+      })
+    } catch {
+      // Silently fail — banner is non-critical
+    }
+  }
+
+  initBanner()
+</script>
