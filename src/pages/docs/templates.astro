@@ -30,14 +30,77 @@ import DocsLayout from '../../layouts/DocsLayout.astro'
 
   <p>Template bodies support up to 1,600 characters, matching the SMS body limit.</p>
 
+  <h2>Variables</h2>
+
+  <p>
+    Templates support <code>{"{{variable}}"}</code> placeholders that are replaced at send time.
+    This enables personalized messages for each recipient.
+  </p>
+
+  <h3>Reserved variables</h3>
+
+  <p>These variables are <strong>auto-filled from your contacts</strong> — you don't need to provide them:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Variable</th>
+        <th>Source</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>{"{{name}}"}</code></td>
+        <td>Contact name</td>
+        <td>Filled from the contact matching the recipient's phone number</td>
+      </tr>
+      <tr>
+        <td><code>{"{{phone}}"}</code></td>
+        <td>Contact phone</td>
+        <td>The recipient's phone number</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p>
+    If a recipient is not in your contacts, reserved variables remain as literal text
+    (e.g., <code>{"{{name}}"}</code> stays unchanged).
+  </p>
+
+  <h3>Custom variables</h3>
+
+  <p>
+    Any other <code>{"{{variable_name}}"}</code> is a custom variable that you provide when sending.
+    For example, a template like:
+  </p>
+
+  <p class="not-prose my-4 p-4 bg-neutral-100 rounded-lg font-mono text-sm">
+    Hi {"{{name}}"}, your verification code is {"{{code}}"}. It expires in {"{{minutes}}"} minutes.
+  </p>
+
+  <p>
+    Has one reserved variable (<code>name</code>) and two custom variables (<code>code</code>, <code>minutes</code>)
+    that must be provided at send time.
+  </p>
+
   <h2>Using templates</h2>
+
+  <h3>In the dashboard</h3>
 
   <p>Templates appear in two places:</p>
 
   <ul>
-    <li><strong>Send SMS dialog</strong> — Select a template from the dropdown above the body field. The template text fills the body, which you can edit before sending.</li>
-    <li><strong>Schedule SMS dialog</strong> — Same template picker is available when creating scheduled messages.</li>
+    <li><strong>Send SMS dialog</strong> — Select a template from the dropdown. A preview of the template body is shown, and input fields appear for any custom variables. Reserved variables are filled automatically from your contacts.</li>
+    <li><strong>Schedule SMS dialog</strong> — Same template picker is available when creating scheduled messages (copies the template text to the body field for editing).</li>
   </ul>
+
+  <h3>Via API</h3>
+
+  <p>
+    Use the <a href="/docs/api/send-sms#send-template"><code>POST /api/sms/send-template</code></a> endpoint
+    or the <a href="/docs/api/sdks#send-sms-template">SDK template methods</a> to send SMS using templates programmatically.
+  </p>
 
   <h2>API access</h2>
 

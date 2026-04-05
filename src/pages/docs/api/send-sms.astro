@@ -222,9 +222,108 @@ const data = await response.json();
 console.log(data);`}
   />
 
+  <h2 id="send-template">Send SMS with template</h2>
+
+  <div class="not-prose my-6 p-4 bg-neutral-100 rounded-lg">
+    <p class="text-sm font-mono">
+      <span class="text-green-600 font-semibold">POST</span>
+      <span class="text-neutral-900 ml-2">/api/sms/send-template</span>
+    </p>
+  </div>
+
+  <p>
+    Send an SMS using a saved <a href="/docs/templates">template</a> with variable interpolation.
+    Reserved variables (<code>{"{{name}}"}</code>, <code>{"{{phone}}"}</code>) are automatically filled from your contacts.
+    Custom variables must be provided in the <code>variables</code> field.
+  </p>
+
+  <h3>Body</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>recipients</code></td>
+        <td>string[]</td>
+        <td>Yes</td>
+        <td>Array of phone numbers in E.164 format</td>
+      </tr>
+      <tr>
+        <td><code>template_id</code></td>
+        <td>string</td>
+        <td>Yes</td>
+        <td>ID of the template to use</td>
+      </tr>
+      <tr>
+        <td><code>variables</code></td>
+        <td>object</td>
+        <td>No</td>
+        <td>Key-value map of custom variable values (e.g., <code>{`{"code": "1234"}`}</code>)</td>
+      </tr>
+      <tr>
+        <td><code>device_id</code></td>
+        <td>string</td>
+        <td>No</td>
+        <td>Specific device to use. If omitted, auto-selected via round-robin.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Example</h3>
+
+  <CodeBlock
+    lang="bash"
+    code={`curl -X POST https://your-server.com/api/sms/send-template \\
+  -H "X-API-Key: vk_your_api_key" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "recipients": ["+1234567890"],
+    "template_id": "TEMPLATE_RECORD_ID",
+    "variables": {
+      "code": "123456",
+      "minutes": "10"
+    }
+  }'`}
+  />
+
+  <p>
+    The response format is identical to <code>/api/sms/send</code>. Each recipient receives a
+    personalized message — if <code>+1234567890</code> is a saved contact named "Alice", a template
+    like <code>{"Hi {{name}}, your code is {{code}}"}</code> becomes <code>Hi Alice, your code is 123456</code>.
+  </p>
+
+  <h3>Errors</h3>
+
+  <CodeBlock
+    lang="json"
+    code={`// 400 Bad Request - Template not found
+{
+  "message": "Template not found."
+}
+
+// 400 Bad Request - Missing variable
+{
+  "message": "Missing variable: code."
+}
+
+// 400 Bad Request - Template ownership
+{
+  "message": "Template does not belong to user."
+}`}
+  />
+
   <h2>Related</h2>
 
   <ul>
+    <li><a href="/docs/templates">Templates</a> - Create and manage templates with variables</li>
+    <li><a href="/docs/api/sdks#send-sms-template">SDK template methods</a> - Send templates from code</li>
     <li><a href="/docs/api/status">Message Status</a> - Check delivery status</li>
     <li><a href="/docs/api/webhooks">Webhooks</a> - Receive delivery notifications</li>
     <li><a href="/docs/api/auth">Authentication</a> - API key management</li>

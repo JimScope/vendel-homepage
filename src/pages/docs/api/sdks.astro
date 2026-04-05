@@ -5,6 +5,8 @@ import CodeBlock from '../../../components/CodeBlock.astro'
 // JS/TS snippets with template literals stored here to avoid Astro escaping issues
 const jsSendSmsLog = 'const response = await client.sendSms(\n  ["+1234567890", "+0987654321"],\n  "Your order has shipped!",\n  "optional_device_id",\n);\nconsole.log(`Batch: ${response.batch_id}, Messages: ${response.message_ids}`);'
 
+const jsSendTemplate = 'const response = await client.sendSmsTemplate(\n  ["+1234567890", "+0987654321"],\n  "TEMPLATE_ID",\n  { code: "123456", minutes: "10" },\n);\nconsole.log(`Batch: ${response.batch_id}`);'
+
 const jsGetQuota = 'const quota = await client.getQuota();\nconsole.log(`Plan: ${quota.plan}`);\nconsole.log(`SMS: ${quota.sms_sent_this_month}/${quota.max_sms_per_month}`);\nconsole.log(`Devices: ${quota.devices_registered}/${quota.max_devices}`);\nconsole.log(`Resets: ${quota.reset_date}`);'
 
 const jsErrorHandling = 'import { VendelClient, VendelQuotaError, VendelAPIError } from "vendel-sdk";\n\ntry {\n  await client.sendSms(["+1234567890"], "Hello");\n} catch (e) {\n  if (e instanceof VendelQuotaError) {\n    console.log(`Quota exceeded: ${e.used}/${e.limit} used, ${e.available} remaining`);\n  } else if (e instanceof VendelAPIError) {\n    console.log(`API error [${e.statusCode}]: ${e.message}`);\n  }\n}'
@@ -102,6 +104,33 @@ print(f"Batch: {response.batch_id}, Messages: {response.message_ids}")`} />
 	DeviceID:   "optional_device_id",
 })
 fmt.Printf("Batch: %s, Messages: %v\\n", resp.BatchID, resp.MessageIDs)`} />
+
+  <h2 id="send-sms-template">Send SMS with template</h2>
+
+  <p>
+    Send personalized SMS using a saved <a href="/docs/templates">template</a>.
+    Reserved variables (<code>{"{{name}}"}</code>, <code>{"{{phone}}"}</code>) are auto-filled from your contacts.
+    Custom variables are passed as a key-value map.
+  </p>
+
+  <h3>Python</h3>
+  <CodeBlock lang="python" code={`response = client.send_sms_template(
+    recipients=["+1234567890", "+0987654321"],
+    template_id="TEMPLATE_ID",
+    variables={"code": "123456", "minutes": "10"},
+)
+print(f"Batch: {response.batch_id}")`} />
+
+  <h3>JavaScript / TypeScript</h3>
+  <CodeBlock lang="typescript" code={jsSendTemplate} />
+
+  <h3>Go</h3>
+  <CodeBlock lang="go" code={`resp, err := client.SendSMSTemplate(ctx, vendel.SendSMSTemplateRequest{
+	Recipients: []string{"+1234567890", "+0987654321"},
+	TemplateID: "TEMPLATE_ID",
+	Variables:  map[string]string{"code": "123456", "minutes": "10"},
+})
+fmt.Printf("Batch: %s\\n", resp.BatchID)`} />
 
   <h2>Get quota</h2>
 
