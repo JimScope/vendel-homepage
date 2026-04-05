@@ -72,6 +72,12 @@ import CodeBlock from '../../../components/CodeBlock.astro'
         <td>No</td>
         <td>Specific device to use. If omitted, auto-selected via round-robin.</td>
       </tr>
+      <tr>
+        <td><code>group_ids</code></td>
+        <td>string[]</td>
+        <td>No</td>
+        <td>Contact group IDs. Members are added to recipients (deduplicated).</td>
+      </tr>
     </tbody>
   </table>
 
@@ -84,6 +90,7 @@ import CodeBlock from '../../../components/CodeBlock.astro'
   -H "Content-Type: application/json" \\
   -d '{
     "recipients": ["+1234567890"],
+    "group_ids": ["GROUP_ID_1", "GROUP_ID_2"],
     "body": "Your verification code is 123456"
   }'`}
   />
@@ -272,6 +279,12 @@ console.log(data);`}
         <td>string</td>
         <td>No</td>
         <td>Specific device to use. If omitted, auto-selected via round-robin.</td>
+      </tr>
+      <tr>
+        <td><code>group_ids</code></td>
+        <td>string[]</td>
+        <td>No</td>
+        <td>Contact group IDs. Members are added to recipients (deduplicated).</td>
       </tr>
     </tbody>
   </table>
