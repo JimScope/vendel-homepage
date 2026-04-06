@@ -1,11 +1,14 @@
 ---
 import DocsLayout from '../../../layouts/DocsLayout.astro'
 import CodeBlock from '../../../components/CodeBlock.astro'
+import CodeTabs from '../../../components/CodeTabs.astro'
 
 // JS/TS snippets with template literals stored here to avoid Astro escaping issues
-const jsSendSmsLog = 'const response = await client.sendSms(\n  ["+1234567890", "+0987654321"],\n  "Your order has shipped!",\n  "optional_device_id",\n);\nconsole.log(`Batch: ${response.batch_id}, Messages: ${response.message_ids}`);'
+const jsSendSms = 'const response = await client.sendSms(\n  ["+1234567890", "+0987654321"],\n  "Your order has shipped!",\n  { deviceId: "optional_device_id" },\n);\nconsole.log(`Batch: ${response.batch_id}, Messages: ${response.message_ids}`);'
 
-const jsSendTemplate = 'const response = await client.sendSmsTemplate(\n  ["+1234567890", "+0987654321"],\n  "TEMPLATE_ID",\n  { code: "123456", minutes: "10" },\n);\nconsole.log(`Batch: ${response.batch_id}`);'
+const jsSendSmsGroups = 'const response = await client.sendSms(\n  ["+1234567890"],\n  "Flash sale starts now!",\n  { groupIds: ["group_abc", "group_xyz"] },\n);\nconsole.log(`Sent to ${response.recipients_count} recipients`);'
+
+const jsSendTemplate = 'const response = await client.sendSmsTemplate(\n  ["+1234567890"],\n  "template_abc",\n  {\n    variables: { code: "1234", expiry: "10 minutes" },\n    groupIds: ["vip_customers"],\n  },\n);\nconsole.log(`Batch: ${response.batch_id}`);'
 
 const jsGetQuota = 'const quota = await client.getQuota();\nconsole.log(`Plan: ${quota.plan}`);\nconsole.log(`SMS: ${quota.sms_sent_this_month}/${quota.max_sms_per_month}`);\nconsole.log(`Devices: ${quota.devices_registered}/${quota.max_devices}`);\nconsole.log(`Resets: ${quota.reset_date}`);'
 
@@ -27,39 +30,36 @@ const jsErrorHandling = 'import { VendelClient, VendelQuotaError, VendelAPIError
 
   <h2>Installation</h2>
 
-  <h3>Python</h3>
-  <CodeBlock lang="bash" code="pip install vendel-sdk" />
+  <CodeTabs
+    python="pip install vendel-sdk"
+    pythonLang="python"
+    js="npm install vendel-sdk"
+    jsLang="typescript"
+    go="go get github.com/JimScope/vendel-sdk-go"
+    goLang="go"
+  />
 
-  <h3>JavaScript / TypeScript</h3>
-  <CodeBlock lang="bash" code="npm install vendel-sdk" />
   <p>
-    Zero runtime dependencies — uses built-in <code>fetch</code> (Node 18+). TypeScript types included.
+    The JS/TS SDK has zero runtime dependencies — uses built-in <code>fetch</code> (Node 18+). TypeScript types included.
   </p>
-
-  <h3>Go</h3>
-  <CodeBlock lang="bash" code="go get github.com/JimScope/vendel-sdk-go" />
 
   <h2>Quick start</h2>
 
   <p>Send an SMS in three lines:</p>
 
-  <h3>Python</h3>
-  <CodeBlock lang="python" code={`from vendel_sdk import VendelClient
+  <CodeTabs
+    python={`from vendel_sdk import VendelClient
 
 client = VendelClient("https://app.vendel.cc", "vk_your_api_key")
-response = client.send_sms(["+1234567890"], "Hello from Vendel!")`} />
-
-  <h3>JavaScript / TypeScript</h3>
-  <CodeBlock lang="typescript" code={`import { VendelClient } from "vendel-sdk";
+response = client.send_sms(["+1234567890"], "Hello from Vendel!")`}
+    js={`import { VendelClient } from "vendel-sdk";
 
 const client = new VendelClient({
   baseUrl: "https://app.vendel.cc",
   apiKey: "vk_your_api_key",
 });
-const response = await client.sendSms(["+1234567890"], "Hello from Vendel!");`} />
-
-  <h3>Go</h3>
-  <CodeBlock lang="go" code={`package main
+const response = await client.sendSms(["+1234567890"], "Hello from Vendel!");`}
+    go={`package main
 
 import (
 	"context"
@@ -77,7 +77,8 @@ func main() {
 		panic(err)
 	}
 	fmt.Println("Batch ID:", resp.BatchID)
-}`} />
+}`}
+  />
 
   <h2>Send SMS</h2>
 
@@ -86,24 +87,44 @@ func main() {
     route through a particular device.
   </p>
 
-  <h3>Python</h3>
-  <CodeBlock lang="python" code={`response = client.send_sms(
+  <CodeTabs
+    python={`response = client.send_sms(
     recipients=["+1234567890", "+0987654321"],
     body="Your order has shipped!",
     device_id="optional_device_id",
 )
-print(f"Batch: {response.batch_id}, Messages: {response.message_ids}")`} />
-
-  <h3>JavaScript / TypeScript</h3>
-  <CodeBlock lang="typescript" code={jsSendSmsLog} />
-
-  <h3>Go</h3>
-  <CodeBlock lang="go" code={`resp, err := client.SendSMS(ctx, vendel.SendSMSRequest{
+print(f"Batch: {response.batch_id}, Messages: {response.message_ids}")`}
+    js={jsSendSms}
+    go={`resp, err := client.SendSMS(ctx, vendel.SendSMSRequest{
 	Recipients: []string{"+1234567890", "+0987654321"},
 	Body:       "Your order has shipped!",
 	DeviceID:   "optional_device_id",
 })
-fmt.Printf("Batch: %s, Messages: %v\\n", resp.BatchID, resp.MessageIDs)`} />
+fmt.Printf("Batch: %s, Messages: %v\\n", resp.BatchID, resp.MessageIDs)`}
+  />
+
+  <h3>Send to contact groups</h3>
+
+  <p>
+    Pass <code>group_ids</code> to include all members of one or more contact groups as recipients.
+    Group members are merged with any explicit recipients you provide.
+  </p>
+
+  <CodeTabs
+    python={`response = client.send_sms(
+    recipients=["+1234567890"],
+    body="Flash sale starts now!",
+    group_ids=["group_abc", "group_xyz"],
+)
+print(f"Sent to {response.recipients_count} recipients")`}
+    js={jsSendSmsGroups}
+    go={`resp, err := client.SendSMS(ctx, vendel.SendSMSRequest{
+	Recipients: []string{"+1234567890"},
+	Body:       "Flash sale starts now!",
+	GroupIDs:   []string{"group_abc", "group_xyz"},
+})
+fmt.Printf("Sent to %d recipients\\n", resp.RecipientsCount)`}
+  />
 
   <h2 id="send-sms-template">Send SMS with template</h2>
 
@@ -113,45 +134,41 @@ fmt.Printf("Batch: %s, Messages: %v\\n", resp.BatchID, resp.MessageIDs)`} />
     Custom variables are passed as a key-value map.
   </p>
 
-  <h3>Python</h3>
-  <CodeBlock lang="python" code={`response = client.send_sms_template(
-    recipients=["+1234567890", "+0987654321"],
-    template_id="TEMPLATE_ID",
-    variables={"code": "123456", "minutes": "10"},
+  <CodeTabs
+    python={`response = client.send_sms_template(
+    recipients=["+1234567890"],
+    template_id="template_abc",
+    variables={"code": "1234", "expiry": "10 minutes"},
+    group_ids=["vip_customers"],
 )
-print(f"Batch: {response.batch_id}")`} />
-
-  <h3>JavaScript / TypeScript</h3>
-  <CodeBlock lang="typescript" code={jsSendTemplate} />
-
-  <h3>Go</h3>
-  <CodeBlock lang="go" code={`resp, err := client.SendSMSTemplate(ctx, vendel.SendSMSTemplateRequest{
-	Recipients: []string{"+1234567890", "+0987654321"},
-	TemplateID: "TEMPLATE_ID",
-	Variables:  map[string]string{"code": "123456", "minutes": "10"},
+print(f"Batch: {response.batch_id}")`}
+    js={jsSendTemplate}
+    go={`resp, err := client.SendSMSTemplate(ctx, vendel.SendSMSTemplateRequest{
+	Recipients: []string{"+1234567890"},
+	TemplateID: "template_abc",
+	Variables:  map[string]string{"code": "1234", "expiry": "10 minutes"},
+	GroupIDs:   []string{"vip_customers"},
 })
-fmt.Printf("Batch: %s\\n", resp.BatchID)`} />
+fmt.Printf("Batch: %s\\n", resp.BatchID)`}
+  />
 
   <h2>Get quota</h2>
 
   <p>Check your current plan limits and usage.</p>
 
-  <h3>Python</h3>
-  <CodeBlock lang="python" code={`quota = client.get_quota()
+  <CodeTabs
+    python={`quota = client.get_quota()
 print(f"Plan: {quota.plan}")
 print(f"SMS: {quota.sms_sent_this_month}/{quota.max_sms_per_month}")
 print(f"Devices: {quota.devices_registered}/{quota.max_devices}")
-print(f"Resets: {quota.reset_date}")`} />
-
-  <h3>JavaScript / TypeScript</h3>
-  <CodeBlock lang="typescript" code={jsGetQuota} />
-
-  <h3>Go</h3>
-  <CodeBlock lang="go" code={`quota, err := client.GetQuota(ctx)
+print(f"Resets: {quota.reset_date}")`}
+    js={jsGetQuota}
+    go={`quota, err := client.GetQuota(ctx)
 fmt.Printf("Plan: %s\\n", quota.Plan)
 fmt.Printf("SMS: %d/%d\\n", quota.SMSSentThisMonth, quota.MaxSMSPerMonth)
 fmt.Printf("Devices: %d/%d\\n", quota.DevicesRegistered, quota.MaxDevices)
-fmt.Printf("Resets: %s\\n", quota.ResetDate)`} />
+fmt.Printf("Resets: %s\\n", quota.ResetDate)`}
+  />
 
   <h2>Webhook verification</h2>
 
@@ -165,8 +182,8 @@ fmt.Printf("Resets: %s\\n", quota.ResetDate)`} />
     body string for verification — do not re-serialize parsed JSON, as key ordering may differ.
   </div>
 
-  <h3>Python (Flask)</h3>
-  <CodeBlock lang="python" code={`from vendel_sdk import verify_webhook_signature
+  <CodeTabs
+    python={`from vendel_sdk import verify_webhook_signature
 
 @app.route("/webhook", methods=["POST"])
 def webhook():
@@ -181,10 +198,8 @@ def webhook():
 
     event = request.json
     print(f"Event: {event['event']}")
-    return "OK", 200`} />
-
-  <h3>JavaScript / TypeScript (Express)</h3>
-  <CodeBlock lang="typescript" code={`import { verifyWebhookSignature } from "vendel-sdk";
+    return "OK", 200`}
+    js={`import { verifyWebhookSignature } from "vendel-sdk";
 import express from "express";
 
 const app = express();
@@ -202,10 +217,8 @@ app.post("/webhook", (req, res) => {
   const event = JSON.parse(req.body.toString());
   console.log("Event:", event.event);
   res.sendStatus(200);
-});`} />
-
-  <h3>Go (net/http)</h3>
-  <CodeBlock lang="go" code={`import (
+});`}
+    go={`import (
 	"io"
 	"net/http"
 	vendel "github.com/JimScope/vendel-sdk-go"
@@ -222,7 +235,8 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Process the event...
 	w.WriteHeader(http.StatusOK)
-}`} />
+}`}
+  />
 
   <h2>Error handling</h2>
 
@@ -231,21 +245,17 @@ func webhookHandler(w http.ResponseWriter, r *http.Request) {
     and <code>available</code> fields so you can show meaningful messages to users.
   </p>
 
-  <h3>Python</h3>
-  <CodeBlock lang="python" code={`from vendel_sdk import VendelClient, VendelAPIError, VendelQuotaError
+  <CodeTabs
+    python={`from vendel_sdk import VendelClient, VendelAPIError, VendelQuotaError
 
 try:
     client.send_sms(["+1234567890"], "Hello")
 except VendelQuotaError as e:
     print(f"Quota exceeded: {e.used}/{e.limit} used, {e.available} remaining")
 except VendelAPIError as e:
-    print(f"API error [{e.status_code}]: {e.message}")`} />
-
-  <h3>JavaScript / TypeScript</h3>
-  <CodeBlock lang="typescript" code={jsErrorHandling} />
-
-  <h3>Go</h3>
-  <CodeBlock lang="go" code={`resp, err := client.SendSMS(ctx, req)
+    print(f"API error [{e.status_code}]: {e.message}")`}
+    js={jsErrorHandling}
+    go={`resp, err := client.SendSMS(ctx, req)
 if err != nil {
 	if vendel.IsQuotaError(err) {
 		qe := err.(*vendel.QuotaError)
@@ -256,6 +266,7 @@ if err != nil {
 	} else {
 		fmt.Printf("Network error: %v\\n", err)
 	}
-}`} />
+}`}
+  />
 
 </DocsLayout>

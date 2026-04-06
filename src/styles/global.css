@@ -146,6 +146,52 @@ body {
   background: var(--color-neutral-400);
 }
 
+/* ==========================================================================
+   Code Tabs Component Styles
+   ========================================================================== */
+
+.code-tabs {
+  margin: 1.5rem 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 1px solid var(--color-neutral-700);
+  background: var(--color-code-bg);
+}
+
+.code-tabs__bar {
+  display: flex;
+  gap: 0;
+  background: var(--color-neutral-900);
+  border-bottom: 1px solid var(--color-neutral-700);
+  overflow-x: auto;
+}
+
+.code-tabs__tab {
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  font-family: var(--font-mono);
+  color: var(--color-neutral-400);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.code-tabs__tab:hover {
+  color: var(--color-neutral-200);
+}
+
+.code-tabs__tab--active {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+}
+
+.code-tabs__panel--hidden {
+  display: none;
+}
+
 /* Inline code styles (for prose/docs) */
 .prose code:not(pre code) {
   background-color: var(--color-neutral-200);

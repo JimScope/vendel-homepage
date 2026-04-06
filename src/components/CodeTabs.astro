@@ -1,0 +1,83 @@
+---
+/**
+ * CodeTabs Component
+ *
+ * Renders code blocks in language tabs (Python, JS/TS, Go).
+ * Uses vanilla JS for tab switching — no framework needed.
+ *
+ * @example
+ * <CodeTabs python="print('hi')" js="console.log('hi')" go='fmt.Println("hi")' />
+ * <CodeTabs python="print('hi')" js="console.log('hi')" />
+ */
+import CodeBlock from './CodeBlock.astro'
+
+interface Props {
+  python?: string
+  pythonLang?: 'python'
+  js?: string
+  jsLang?: 'javascript' | 'typescript'
+  go?: string
+  goLang?: 'go'
+}
+
+const {
+  python,
+  pythonLang = 'python',
+  js,
+  jsLang = 'typescript',
+  go,
+  goLang = 'go',
+} = Astro.props
+
+const tabs = [
+  python && { id: 'python', label: 'Python', code: python, lang: pythonLang },
+  js && { id: 'js', label: 'JavaScript / TypeScript', code: js, lang: jsLang },
+  go && { id: 'go', label: 'Go', code: go, lang: goLang },
+].filter(Boolean) as { id: string; label: string; code: string; lang: string }[]
+
+const groupId = Math.random().toString(36).slice(2, 8)
+---
+
+<div class="code-tabs" data-tabs-group={groupId}>
+  <div class="code-tabs__bar">
+    {tabs.map((tab, i) => (
+      <button
+        class:list={['code-tabs__tab', { 'code-tabs__tab--active': i === 0 }]}
+        data-tab={tab.id}
+        data-group={groupId}
+        type="button"
+      >
+        {tab.label}
+      </button>
+    ))}
+  </div>
+  {tabs.map((tab, i) => (
+    <div
+      class:list={['code-tabs__panel', { 'code-tabs__panel--hidden': i !== 0 }]}
+      data-panel={tab.id}
+      data-group={groupId}
+    >
+      <CodeBlock lang={tab.lang as any} code={tab.code} class="code-block--no-margin" />
+    </div>
+  ))}
+</div>
+
+<script>
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.code-tabs__tab')
+    if (!btn) return
+
+    const group = btn.dataset.group!
+    const tabId = btn.dataset.tab!
+
+    // Update tabs
+    document.querySelectorAll<HTMLButtonElement>(`.code-tabs__tab[data-group="${group}"]`).forEach((t) => {
+      t.classList.toggle('code-tabs__tab--active', t.dataset.tab === tabId)
+    })
+
+    // Update panels
+    document.querySelectorAll<HTMLDivElement>(`.code-tabs__panel[data-group="${group}"]`).forEach((p) => {
+      p.classList.toggle('code-tabs__panel--hidden', p.dataset.panel !== tabId)
+    })
+  })
+</script>
