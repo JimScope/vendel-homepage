@@ -91,7 +91,11 @@ volumes:
         Open the dashboard at <code>http://localhost:8090</code> and log in with the superuser credentials you set in the environment variables. You can also access the PocketBase admin panel at <code>http://localhost:8090/_/</code>.
     </p>
 
-    <h3>4. Connect a device</h3>
+    <h3>4. Register a device</h3>
+
+    <p>In the dashboard, go to <strong>Devices</strong> and click <strong>Add Device</strong>. Fill in the device name, phone number, and type (Android). A QR code and device API key will be displayed.</p>
+
+    <h3>5. Connect the Android app</h3>
 
     <p>Install the Vendel Android app on your phone:</p>
 
@@ -101,17 +105,13 @@ volumes:
                 href="https://github.com/JimScope/vendel-android/releases"
                 >GitHub Releases</a>
         </li>
-        <li>
-            Open the app and enter your server URL: <code
-                >http://YOUR_SERVER_IP:8090</code>
-        </li>
-        <li>Log in with your credentials</li>
+        <li>Open the app and scan the QR code from the dashboard, or enter the server URL and device API key manually</li>
         <li>Grant SMS permissions when prompted</li>
     </ol>
 
-    <p>Your phone is now registered as a device and ready to send messages.</p>
+    <p>Your phone is now connected as a gateway device and ready to send messages. See the <a href="/docs/android-app">Android App</a> guide for more details.</p>
 
-    <h3>5. Create an API key</h3>
+    <h3>6. Create an API key</h3>
 
     <p>Back in the dashboard:</p>
 
@@ -121,7 +121,7 @@ volumes:
         <li>Copy the key (it won't be shown again)</li>
     </ol>
 
-    <h3>6. Send your first message</h3>
+    <h3>7. Send your first message</h3>
 
     <p>Use your API key to send an SMS:</p>
 
@@ -141,20 +141,21 @@ volumes:
     <CodeBlock
         lang="json"
         code={`{
+  "batch_id": "",
   "message_ids": ["a1b2c3d4e5f6g7h"],
   "recipients_count": 1,
   "status": "accepted"
 }`}
     />
 
-    <h3>7. Check message status</h3>
+    <h3>8. Check message status</h3>
 
-    <p>View your message in the dashboard, or query it via the PocketBase collections API:</p>
+    <p>View your message in the dashboard, or query its status via the API:</p>
 
     <CodeBlock
         lang="bash"
-        code={`curl http://localhost:8090/api/collections/sms_messages/records/MESSAGE_ID \\
-  -H "Authorization: Bearer YOUR_JWT_TOKEN"`}
+        code={`curl http://localhost:8090/api/sms/status/MESSAGE_ID \\
+  -H "X-API-Key: YOUR_API_KEY"`}
     />
 
     <h2>Next steps</h2>

@@ -7,17 +7,17 @@ import CodeBlock from '../../../components/CodeBlock.astro'
   <h1>Message Status</h1>
 
   <p class="lead text-xl text-neutral-600">
-    Check the delivery status of sent messages.
+    Check the delivery status of individual messages and batches.
   </p>
 
   <h2>Get message status</h2>
 
-  <p>Messages are stored in the <code>sms_messages</code> PocketBase collection. Query a specific message by its ID:</p>
+  <p>Retrieve the current delivery status of a single SMS message by its ID. Authenticates with an integration API key or JWT token.</p>
 
   <div class="not-prose my-6 p-4 bg-neutral-100 rounded-lg">
     <p class="text-sm font-mono">
       <span class="text-blue-600 font-semibold">GET</span>
-      <span class="text-neutral-900 ml-2">/api/collections/sms_messages/records/:id</span>
+      <span class="text-neutral-900 ml-2">/api/sms/status/{'{id}'}</span>
     </p>
   </div>
 
@@ -25,8 +25,8 @@ import CodeBlock from '../../../components/CodeBlock.astro'
 
   <CodeBlock
     lang="bash"
-    code={`curl https://your-server.com/api/collections/sms_messages/records/MESSAGE_ID \\
-  -H "Authorization: Bearer YOUR_JWT_TOKEN"`}
+    code={`curl https://app.vendel.cc/api/sms/status/MESSAGE_ID \\
+  -H "X-API-Key: vk_your_api_key"`}
   />
 
   <h3>Response</h3>
@@ -35,19 +35,89 @@ import CodeBlock from '../../../components/CodeBlock.astro'
     lang="json"
     code={`{
   "id": "a1b2c3d4e5f6g7h",
-  "collectionId": "sms_messages",
-  "collectionName": "sms_messages",
+  "batch_id": "x9y8z7w6v5u4t3s",
+  "recipient": "+1234567890",
   "status": "delivered",
-  "to": "+1234567890",
-  "body": "Your code is 123456",
-  "message_type": "outgoing",
-  "device": "x9y8z7w6v5u4t3s",
-  "sent_at": "2024-01-15 10:30:02.000Z",
-  "delivered_at": "2024-01-15 10:30:05.000Z",
   "error_message": "",
+  "device_id": "d3v1c31d000001",
   "created": "2024-01-15 10:30:00.000Z",
   "updated": "2024-01-15 10:30:05.000Z"
 }`}
+  />
+
+  <h2>Get batch status</h2>
+
+  <p>
+    When you send to multiple recipients, the response includes a <code>batch_id</code>.
+    Use this endpoint to retrieve the status of all messages in the batch, along with aggregate counts.
+  </p>
+
+  <div class="not-prose my-6 p-4 bg-neutral-100 rounded-lg">
+    <p class="text-sm font-mono">
+      <span class="text-blue-600 font-semibold">GET</span>
+      <span class="text-neutral-900 ml-2">/api/sms/batch/{'{batchId}'}</span>
+    </p>
+  </div>
+
+  <h3>Example</h3>
+
+  <CodeBlock
+    lang="bash"
+    code={`curl https://app.vendel.cc/api/sms/batch/BATCH_ID \\
+  -H "X-API-Key: vk_your_api_key"`}
+  />
+
+  <h3>Response</h3>
+
+  <CodeBlock
+    lang="json"
+    code={`{
+  "batch_id": "x9y8z7w6v5u4t3s",
+  "total": 3,
+  "status_counts": {
+    "delivered": 2,
+    "sent": 1
+  },
+  "messages": [
+    {
+      "id": "msg001",
+      "recipient": "+1234567890",
+      "status": "delivered",
+      "error_message": "",
+      "created": "2024-01-15 10:30:00.000Z",
+      "updated": "2024-01-15 10:30:05.000Z"
+    },
+    {
+      "id": "msg002",
+      "recipient": "+0987654321",
+      "status": "delivered",
+      "error_message": "",
+      "created": "2024-01-15 10:30:00.000Z",
+      "updated": "2024-01-15 10:30:06.000Z"
+    },
+    {
+      "id": "msg003",
+      "recipient": "+1122334455",
+      "status": "sent",
+      "error_message": "",
+      "created": "2024-01-15 10:30:00.000Z",
+      "updated": "2024-01-15 10:30:04.000Z"
+    }
+  ]
+}`}
+  />
+
+  <h2>Authentication</h2>
+
+  <p>Both endpoints accept either an integration API key or a JWT token:</p>
+
+  <CodeBlock
+    lang="bash"
+    code={`# API key
+-H "X-API-Key: vk_your_api_key"
+
+# JWT token
+-H "Authorization: Bearer YOUR_JWT_TOKEN"`}
   />
 
   <h2>Status values</h2>
@@ -62,7 +132,7 @@ import CodeBlock from '../../../components/CodeBlock.astro'
     <tbody>
       <tr>
         <td><code>pending</code></td>
-        <td>Created, no device assigned</td>
+        <td>Created, no device assigned yet</td>
       </tr>
       <tr>
         <td><code>assigned</code></td>
@@ -91,7 +161,27 @@ import CodeBlock from '../../../components/CodeBlock.astro'
     </tbody>
   </table>
 
-  <h2>List messages</h2>
+  <h2>Errors</h2>
+
+  <CodeBlock
+    lang="json"
+    code={`// 401 Unauthorized
+{
+  "message": "Authentication required."
+}
+
+// 404 Not Found - message or batch does not exist (or belongs to another user)
+{
+  "message": "Message not found."
+}`}
+  />
+
+  <h2>PocketBase collections API</h2>
+
+  <p>
+    You can also query messages directly via PocketBase's standard list API. This gives you access to
+    filtering, sorting, and pagination over the <code>sms_messages</code> collection.
+  </p>
 
   <div class="not-prose my-6 p-4 bg-neutral-100 rounded-lg">
     <p class="text-sm font-mono">
@@ -101,8 +191,6 @@ import CodeBlock from '../../../components/CodeBlock.astro'
   </div>
 
   <h3>Query parameters</h3>
-
-  <p>Uses PocketBase's standard list API with filtering, sorting, and page-based pagination:</p>
 
   <table>
     <thead>
@@ -135,13 +223,14 @@ import CodeBlock from '../../../components/CodeBlock.astro'
 
   <CodeBlock
     lang="bash"
-    code={`curl "https://your-server.com/api/collections/sms_messages/records?filter=status='delivered'&sort=-created&perPage=20" \\
+    code={`curl "https://app.vendel.cc/api/collections/sms_messages/records?filter=status='delivered'&sort=-created&perPage=20" \\
   -H "Authorization: Bearer YOUR_JWT_TOKEN"`}
   />
 
   <h2>Related</h2>
 
   <ul>
+    <li><a href="/docs/api/sdks">Client SDKs</a> - Use <code>getMessageStatus()</code> and <code>getBatchStatus()</code></li>
     <li><a href="/docs/api/webhooks">Webhooks</a> - Get status updates in real-time</li>
     <li><a href="/docs/api/send-sms">Send SMS</a> - Send messages</li>
   </ul>

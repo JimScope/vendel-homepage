@@ -16,7 +16,7 @@ import CodeBlock from '../../../components/CodeBlock.astro'
 
   <CodeBlock lang="bash" code="X-API-Key: vk_your_api_key_here" />
 
-  <p>API keys (prefixed <code>vk_</code>) are created in the dashboard and can be used to send SMS and access the API without a user session.</p>
+  <p>API keys (prefixed <code>vk_</code>) are created in the dashboard and can be used to send SMS and access the API without a user session. Keys expire after one year by default, but active keys have their <code>last_used_at</code> timestamp updated automatically.</p>
 
   <h2>JWT Authentication</h2>
 

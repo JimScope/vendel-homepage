@@ -12,6 +12,14 @@ const jsSendTemplate = 'const response = await client.sendSmsTemplate(\n  ["+123
 
 const jsGetQuota = 'const quota = await client.getQuota();\nconsole.log(`Plan: ${quota.plan}`);\nconsole.log(`SMS: ${quota.sms_sent_this_month}/${quota.max_sms_per_month}`);\nconsole.log(`Devices: ${quota.devices_registered}/${quota.max_devices}`);\nconsole.log(`Resets: ${quota.reset_date}`);'
 
+const jsGetMessageStatus = 'const status = await client.getMessageStatus("MESSAGE_ID");\nconsole.log(`Status: ${status.status}`);\nconsole.log(`Recipient: ${status.recipient}`);\nif (status.error_message) {\n  console.log(`Error: ${status.error_message}`);\n}'
+
+const jsGetBatchStatus = 'const batch = await client.getBatchStatus("BATCH_ID");\nconsole.log(`Total: ${batch.total}`);\nconsole.log(`Status counts:`, batch.status_counts);\nfor (const msg of batch.messages) {\n  console.log(`  ${msg.recipient}: ${msg.status}`);\n}'
+
+const jsListContacts = 'const contacts = await client.listContacts({ search: "Alice", perPage: 20 });\nconsole.log(`Found ${contacts.total_items} contacts`);\nfor (const c of contacts.items) {\n  console.log(`  ${c.name}: ${c.phone_number}`);\n}'
+
+const jsListContactGroups = 'const groups = await client.listContactGroups({ perPage: 50 });\nconsole.log(`Found ${groups.total_items} groups`);\nfor (const g of groups.items) {\n  console.log(`  ${g.id}: ${g.name}`);\n}'
+
 const jsErrorHandling = 'import { VendelClient, VendelQuotaError, VendelAPIError } from "vendel-sdk";\n\ntry {\n  await client.sendSms(["+1234567890"], "Hello");\n} catch (e) {\n  if (e instanceof VendelQuotaError) {\n    console.log(`Quota exceeded: ${e.used}/${e.limit} used, ${e.available} remaining`);\n  } else if (e instanceof VendelAPIError) {\n    console.log(`API error [${e.statusCode}]: ${e.message}`);\n  }\n}'
 ---
 
@@ -168,6 +176,90 @@ fmt.Printf("Plan: %s\\n", quota.Plan)
 fmt.Printf("SMS: %d/%d\\n", quota.SMSSentThisMonth, quota.MaxSMSPerMonth)
 fmt.Printf("Devices: %d/%d\\n", quota.DevicesRegistered, quota.MaxDevices)
 fmt.Printf("Resets: %s\\n", quota.ResetDate)`}
+  />
+
+  <h2 id="message-status">Get message status</h2>
+
+  <p>
+    Check the delivery status of a single SMS message by its ID.
+    See <a href="/docs/api/status">Message Status</a> for the full API reference.
+  </p>
+
+  <CodeTabs
+    python={`status = client.get_message_status("MESSAGE_ID")
+print(f"Status: {status.status}")
+print(f"Recipient: {status.recipient}")
+if status.error_message:
+    print(f"Error: {status.error_message}")`}
+    js={jsGetMessageStatus}
+    go={`status, err := client.GetMessageStatus(ctx, "MESSAGE_ID")
+fmt.Printf("Status: %s\\n", status.Status)
+fmt.Printf("Recipient: %s\\n", status.Recipient)
+if status.ErrorMessage != "" {
+	fmt.Printf("Error: %s\\n", status.ErrorMessage)
+}`}
+  />
+
+  <h2 id="batch-status">Get batch status</h2>
+
+  <p>
+    When sending to multiple recipients, the response includes a <code>batch_id</code>.
+    Use it to retrieve the status of all messages in the batch, including aggregate counts per status.
+  </p>
+
+  <CodeTabs
+    python={`batch = client.get_batch_status("BATCH_ID")
+print(f"Total: {batch.total}")
+print(f"Status counts: {batch.status_counts}")
+for msg in batch.messages:
+    print(f"  {msg.recipient}: {msg.status}")`}
+    js={jsGetBatchStatus}
+    go={`batch, err := client.GetBatchStatus(ctx, "BATCH_ID")
+fmt.Printf("Total: %d\\n", batch.Total)
+fmt.Printf("Status counts: %v\\n", batch.StatusCounts)
+for _, msg := range batch.Messages {
+	fmt.Printf("  %s: %s\\n", msg.Recipient, msg.Status)
+}`}
+  />
+
+  <h2 id="contacts">List contacts</h2>
+
+  <p>
+    Retrieve your contacts with optional search and group filtering.
+    Results are paginated (default 50 per page, max 200).
+  </p>
+
+  <CodeTabs
+    python={`contacts = client.list_contacts(search="Alice", per_page=20)
+print(f"Found {contacts.total_items} contacts")
+for c in contacts.items:
+    print(f"  {c.name}: {c.phone_number}")`}
+    js={jsListContacts}
+    go={`contacts, err := client.ListContacts(ctx, vendel.ListContactsParams{
+	Search:  "Alice",
+	PerPage: 20,
+})
+fmt.Printf("Found %d contacts\\n", contacts.TotalItems)
+for _, c := range contacts.Items {
+	fmt.Printf("  %s: %s\\n", c.Name, c.PhoneNumber)
+}`}
+  />
+
+  <h2 id="contact-groups">List contact groups</h2>
+
+  <p>Retrieve your contact groups. Use group IDs when sending to entire groups via <code>group_ids</code>.</p>
+
+  <CodeTabs
+    python={`groups = client.list_contact_groups(per_page=50)
+print(f"Found {groups.total_items} groups")
+for g in groups.items:
+    print(f"  {g.id}: {g.name}")`}
+    js={jsListContactGroups}
+    go={`groups, err := client.ListContactGroups(ctx, 1, 50)
+fmt.Printf("Found %d groups\\n", groups.TotalItems)
+for _, g := range groups.Items {
+	fmt.Printf("  %s: %s\\n", g.ID, g.Name)
+}`}
   />
 
   <h2>Webhook verification</h2>
