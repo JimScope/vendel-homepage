@@ -1,5 +1,6 @@
 ---
 import DocsLayout from '../../layouts/DocsLayout.astro'
+import CodeBlock from '../../components/CodeBlock.astro'
 ---
 
 <DocsLayout title="SMS Templates">
@@ -75,9 +76,7 @@ import DocsLayout from '../../layouts/DocsLayout.astro'
     For example, a template like:
   </p>
 
-  <p class="not-prose my-4 p-4 bg-neutral-100 rounded-lg font-mono text-sm">
-    Hi {"{{name}}"}, your verification code is {"{{code}}"}. It expires in {"{{minutes}}"} minutes.
-  </p>
+  <CodeBlock lang="bash" code="Hi {{name}}, your verification code is {{code}}. It expires in {{minutes}} minutes." />
 
   <p>
     Has one reserved variable (<code>name</code>) and two custom variables (<code>code</code>, <code>minutes</code>)
@@ -110,21 +109,11 @@ import DocsLayout from '../../layouts/DocsLayout.astro'
 
   <h3>List templates</h3>
 
-  <div class="not-prose my-6 p-4 bg-neutral-100 rounded-lg">
-    <p class="text-sm font-mono">
-      <span class="text-blue-600 font-semibold">GET</span>
-      <span class="text-neutral-900 ml-2">/api/collections/sms_templates/records</span>
-    </p>
-  </div>
+  <CodeBlock lang="bash" code="GET /api/collections/sms_templates/records" />
 
   <h3>Create a template</h3>
 
-  <div class="not-prose my-6 p-4 bg-neutral-100 rounded-lg">
-    <p class="text-sm font-mono">
-      <span class="text-green-600 font-semibold">POST</span>
-      <span class="text-neutral-900 ml-2">/api/collections/sms_templates/records</span>
-    </p>
-  </div>
+  <CodeBlock lang="bash" code="POST /api/collections/sms_templates/records" />
 
   <table>
     <thead>
@@ -159,21 +148,11 @@ import DocsLayout from '../../layouts/DocsLayout.astro'
 
   <h3>Update a template</h3>
 
-  <div class="not-prose my-6 p-4 bg-neutral-100 rounded-lg">
-    <p class="text-sm font-mono">
-      <span class="text-amber-600 font-semibold">PATCH</span>
-      <span class="text-neutral-900 ml-2">/api/collections/sms_templates/records/:id</span>
-    </p>
-  </div>
+  <CodeBlock lang="bash" code="PATCH /api/collections/sms_templates/records/:id" />
 
   <h3>Delete a template</h3>
 
-  <div class="not-prose my-6 p-4 bg-neutral-100 rounded-lg">
-    <p class="text-sm font-mono">
-      <span class="text-red-600 font-semibold">DELETE</span>
-      <span class="text-neutral-900 ml-2">/api/collections/sms_templates/records/:id</span>
-    </p>
-  </div>
+  <CodeBlock lang="bash" code="DELETE /api/collections/sms_templates/records/:id" />
 
   <h2>Related</h2>
 

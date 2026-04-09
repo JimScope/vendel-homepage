@@ -10,12 +10,7 @@ import CodeBlock from '../../../components/CodeBlock.astro'
     Send an SMS message through the Vendel API.
   </p>
 
-  <div class="not-prose my-6 p-4 bg-neutral-100 rounded-lg">
-    <p class="text-sm font-mono">
-      <span class="text-green-600 font-semibold">POST</span>
-      <span class="text-neutral-900 ml-2">/api/sms/send</span>
-    </p>
-  </div>
+  <CodeBlock lang="bash" code="POST /api/sms/send" />
 
   <h2>Request</h2>
 
@@ -232,12 +227,7 @@ console.log(data);`}
 
   <h2 id="send-template">Send SMS with template</h2>
 
-  <div class="not-prose my-6 p-4 bg-neutral-100 rounded-lg">
-    <p class="text-sm font-mono">
-      <span class="text-green-600 font-semibold">POST</span>
-      <span class="text-neutral-900 ml-2">/api/sms/send-template</span>
-    </p>
-  </div>
+  <CodeBlock lang="bash" code="POST /api/sms/send-template" />
 
   <p>
     Send an SMS using a saved <a href="/docs/templates">template</a> with variable interpolation.

@@ -7,20 +7,20 @@ const capabilities = [
     description: 'Turn your old Android phones or USB modems into SMS gateways. No special hardware needed.',
   },
   {
+    title: 'Contacts & Groups',
+    description: 'Manage contacts, organize them in groups, import vCards, and send to entire groups directly.',
+  },
+  {
+    title: 'SMS Templates',
+    description: 'Create reusable templates with per-recipient variables like {{name}} for personalized bulk messaging.',
+  },
+  {
     title: 'Webhooks',
-    description: 'Get notified on delivery, failures, and incoming messages. Integrate with anything.',
+    description: 'Get notified on delivery, failures, and incoming messages with encrypted payloads. Integrate with anything.',
   },
   {
-    title: 'Quotas & Limits',
-    description: 'Built-in quota system to manage usage across users and API keys.',
-  },
-  {
-    title: 'REST API',
-    description: 'Clean, documented API. Send messages, manage devices, check status. That\'s it.',
-  },
-  {
-    title: 'Multi-tenant',
-    description: 'Create users, assign devices, set permissions. Great for teams or reselling.',
+    title: 'Scheduled SMS',
+    description: 'Schedule messages for future delivery or set up recurring sends. Fire and forget.',
   },
   {
     title: 'Dashboard',
@@ -28,7 +28,7 @@ const capabilities = [
   },
 ]
 
-const codeExample = `curl -X POST https://your-server.com/api/sms/send \\
+const codeExample = `curl -X POST https://app.vendel.cc/api/sms/send \\
   -H "X-API-Key: vk_your_api_key" \\
   -H "Content-Type: application/json" \\
   -d '{"recipients": ["+1234567890"], "body": "Hello from Vendel!"}'`

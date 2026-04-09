@@ -1,0 +1,153 @@
+---
+import DocsLayout from '../../../layouts/DocsLayout.astro'
+import CodeBlock from '../../../components/CodeBlock.astro'
+---
+
+<DocsLayout title="Promo Codes">
+  <h1>Promo Codes</h1>
+
+  <p class="lead text-xl text-neutral-600">
+    Redeem promotional codes to add funds to your balance.
+  </p>
+
+  <h2>Redeem a promo code</h2>
+
+  <CodeBlock lang="bash" code="POST /api/promos/redeem" />
+
+  <p>
+    Redeems a promo code and credits the corresponding amount to the authenticated user's balance.
+    Each user can only redeem a given code once.
+  </p>
+
+  <h3>Headers</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Header</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>Authorization</code></td>
+        <td><code>Bearer YOUR_JWT_TOKEN</code></td>
+      </tr>
+      <tr>
+        <td><code>Content-Type</code></td>
+        <td><code>application/json</code></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Body</h3>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>code</code></td>
+        <td>string</td>
+        <td>Yes</td>
+        <td>The promo code to redeem (case-insensitive, auto-uppercased)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Example</h3>
+
+  <CodeBlock
+    lang="bash"
+    code={`curl -X POST https://app.vendel.cc/api/promos/redeem \\
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{"code": "PRODUCTHUNT1"}'`}
+  />
+
+  <h3>Success (200 OK)</h3>
+
+  <CodeBlock
+    lang="json"
+    code={`{
+  "message": "$1.00 credited to your balance",
+  "amount": 1,
+  "new_balance": 1.00
+}`}
+  />
+
+  <h3>Errors</h3>
+
+  <CodeBlock
+    lang="json"
+    code={`// 404 Not Found - Invalid code
+{
+  "message": "Invalid promo code"
+}
+
+// 409 Conflict - Already redeemed
+{
+  "message": "You have already redeemed this code"
+}
+
+// 410 Gone - Expired or fully redeemed
+{
+  "message": "This promo code has expired"
+}
+// or
+{
+  "message": "This promo code is no longer active"
+}
+// or
+{
+  "message": "This promo code has been fully redeemed"
+}`}
+  />
+
+  <h2>Promo code properties</h2>
+
+  <p>Promo codes are created by administrators in the dashboard. Each code has:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Property</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>code</code></td>
+        <td>Unique code string (e.g., PRODUCTHUNT1)</td>
+      </tr>
+      <tr>
+        <td><code>amount</code></td>
+        <td>Balance credit in USD</td>
+      </tr>
+      <tr>
+        <td><code>max_redemptions</code></td>
+        <td>Maximum total redemptions (0 = unlimited)</td>
+      </tr>
+      <tr>
+        <td><code>expires_at</code></td>
+        <td>Optional expiration date</td>
+      </tr>
+      <tr>
+        <td><code>active</code></td>
+        <td>Whether the code is currently active</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>Related</h2>
+
+  <ul>
+    <li><a href="/docs/api/auth">Authentication</a> — JWT tokens for API access</li>
+  </ul>
+</DocsLayout>

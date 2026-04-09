@@ -1,0 +1,110 @@
+---
+const plans = [
+  {
+    name: "Free",
+    price: "$0",
+    description: "Get started with the basics.",
+    features: [
+      "50 SMS / month",
+      "1 device",
+      "1 scheduled SMS",
+      "1 integration",
+    ],
+    highlighted: false,
+  },
+  {
+    name: "Hobby",
+    price: "$0.99",
+    description: "For side projects and small apps.",
+    features: [
+      "500 SMS / month",
+      "3 devices",
+      "10 scheduled SMS",
+      "5 integrations",
+    ],
+    highlighted: true,
+  },
+  {
+    name: "Pro",
+    price: "$2.99",
+    description: "For production workloads.",
+    features: [
+      "5,000 SMS / month",
+      "10 devices",
+      "100 scheduled SMS",
+      "20 integrations",
+    ],
+    highlighted: false,
+  },
+];
+---
+
+<section id="pricing" class="py-24 lg:py-32">
+  <div class="max-w-7xl mx-auto px-6 lg:px-8">
+    <div class="max-w-3xl">
+      <h2 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-900 leading-tight">
+        Simple pricing
+      </h2>
+      <p class="mt-6 text-lg text-neutral-600 leading-relaxed">
+        Start free, upgrade when you need more. Self-hosted is always free with no limits.
+      </p>
+    </div>
+
+    <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+      {plans.map((plan) => (
+        <div
+          class:list={[
+            "card relative flex flex-col",
+            plan.highlighted ? "card-featured" : "card-default",
+          ]}
+        >
+          {plan.highlighted && (
+            <div class="absolute -top-3 left-6">
+              <span class="inline-block bg-[#2dd4a8] text-neutral-900 text-xs font-semibold px-3 py-1 rounded-full">
+                Popular
+              </span>
+            </div>
+          )}
+
+          <div class="mb-6">
+            <h3 class="font-serif text-xl font-bold text-neutral-900">
+              {plan.name}
+            </h3>
+            <p class="mt-1 text-sm text-neutral-600">{plan.description}</p>
+          </div>
+
+          <div class="mb-6">
+            <span class="text-4xl font-bold text-neutral-900">{plan.price}</span>
+            <span class="text-neutral-500 ml-1">/ month</span>
+          </div>
+
+          <ul class="card-list flex-1 space-y-3 mb-8">
+            {plan.features.map((feature) => (
+              <li class="flex items-center gap-3">
+                <div class="w-5 h-5 rounded-full bg-neutral-100 flex items-center justify-center shrink-0">
+                  <svg class="w-3 h-3 text-[#2dd4a8]" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <span class="text-neutral-700">{feature}</span>
+              </li>
+            ))}
+          </ul>
+
+          <a
+            href="https://app.vendel.cc"
+            class:list={[
+              "btn w-full justify-center",
+              plan.highlighted ? "btn-primary" : "btn-secondary",
+            ]}
+          >
+            Get Started
+            <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

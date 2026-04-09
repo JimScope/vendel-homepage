@@ -14,12 +14,7 @@ import CodeBlock from '../../../components/CodeBlock.astro'
 
   <p>Retrieve the current delivery status of a single SMS message by its ID. Authenticates with an integration API key or JWT token.</p>
 
-  <div class="not-prose my-6 p-4 bg-neutral-100 rounded-lg">
-    <p class="text-sm font-mono">
-      <span class="text-blue-600 font-semibold">GET</span>
-      <span class="text-neutral-900 ml-2">/api/sms/status/{'{id}'}</span>
-    </p>
-  </div>
+  <CodeBlock lang="bash" code="GET /api/sms/status/{id}" />
 
   <h3>Example</h3>
 
@@ -52,12 +47,7 @@ import CodeBlock from '../../../components/CodeBlock.astro'
     Use this endpoint to retrieve the status of all messages in the batch, along with aggregate counts.
   </p>
 
-  <div class="not-prose my-6 p-4 bg-neutral-100 rounded-lg">
-    <p class="text-sm font-mono">
-      <span class="text-blue-600 font-semibold">GET</span>
-      <span class="text-neutral-900 ml-2">/api/sms/batch/{'{batchId}'}</span>
-    </p>
-  </div>
+  <CodeBlock lang="bash" code="GET /api/sms/batch/{batchId}" />
 
   <h3>Example</h3>
 
@@ -183,12 +173,7 @@ import CodeBlock from '../../../components/CodeBlock.astro'
     filtering, sorting, and pagination over the <code>sms_messages</code> collection.
   </p>
 
-  <div class="not-prose my-6 p-4 bg-neutral-100 rounded-lg">
-    <p class="text-sm font-mono">
-      <span class="text-blue-600 font-semibold">GET</span>
-      <span class="text-neutral-900 ml-2">/api/collections/sms_messages/records</span>
-    </p>
-  </div>
+  <CodeBlock lang="bash" code="GET /api/collections/sms_messages/records" />
 
   <h3>Query parameters</h3>
 

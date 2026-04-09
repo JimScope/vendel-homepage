@@ -45,17 +45,13 @@ import CodeBlock from '../../components/CodeBlock.astro'
 
   <p>Cron expressions use the standard 5-field format:</p>
 
-  <div class="not-prose my-6 p-4 bg-neutral-100 rounded-lg">
-    <p class="text-sm font-mono text-neutral-900">
-      ┌───── minute (0–59)<br/>
-      │ ┌───── hour (0–23)<br/>
-      │ │ ┌───── day of month (1–31)<br/>
-      │ │ │ ┌───── month (1–12)<br/>
-      │ │ │ │ ┌───── day of week (0–6, Sun=0)<br/>
-      │ │ │ │ │<br/>
-      * * * * *
-    </p>
-  </div>
+  <CodeBlock lang="bash" code={`┌───── minute (0-59)
+│ ┌───── hour (0-23)
+│ │ ┌───── day of month (1-31)
+│ │ │ ┌───── month (1-12)
+│ │ │ │ ┌───── day of week (0-6, Sun=0)
+│ │ │ │ │
+* * * * *`} />
 
   <p>Common examples:</p>
 
@@ -114,12 +110,7 @@ import CodeBlock from '../../components/CodeBlock.astro'
 
   <h3>Create a schedule</h3>
 
-  <div class="not-prose my-6 p-4 bg-neutral-100 rounded-lg">
-    <p class="text-sm font-mono">
-      <span class="text-green-600 font-semibold">POST</span>
-      <span class="text-neutral-900 ml-2">/api/collections/scheduled_sms/records</span>
-    </p>
-  </div>
+  <CodeBlock lang="bash" code="POST /api/collections/scheduled_sms/records" />
 
   <table>
     <thead>
@@ -190,12 +181,7 @@ import CodeBlock from '../../components/CodeBlock.astro'
 
   <h3>Validate a cron expression</h3>
 
-  <div class="not-prose my-6 p-4 bg-neutral-100 rounded-lg">
-    <p class="text-sm font-mono">
-      <span class="text-green-600 font-semibold">POST</span>
-      <span class="text-neutral-900 ml-2">/api/sms/validate-cron</span>
-    </p>
-  </div>
+  <CodeBlock lang="bash" code="POST /api/sms/validate-cron" />
 
   <CodeBlock
     lang="json"

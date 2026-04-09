@@ -1,0 +1,141 @@
+---
+import DocsLayout from '../../layouts/DocsLayout.astro'
+import CodeBlock from '../../components/CodeBlock.astro'
+---
+
+<DocsLayout title="Contacts">
+  <h1>Contacts</h1>
+
+  <p class="lead text-xl text-neutral-600">
+    Manage contacts, organize them into groups, and send SMS to entire groups at once.
+  </p>
+
+  <h2>Overview</h2>
+
+  <p>
+    Contacts let you store phone numbers with names so you can quickly select recipients when sending messages. Organize contacts into groups for bulk messaging — send to an entire group with a single action.
+  </p>
+
+  <p>
+    Contacts are also used to auto-fill <a href="/docs/templates#variables">template variables</a> like <code>&#123;&#123;name&#125;&#125;</code> when sending personalized messages.
+  </p>
+
+  <h2>Managing contacts</h2>
+
+  <h3>Adding contacts</h3>
+
+  <ol>
+    <li>Navigate to <strong>Contacts</strong> in the sidebar</li>
+    <li>Click <strong>Add Contact</strong></li>
+    <li>Enter a <strong>name</strong> and <strong>phone number</strong></li>
+    <li>Optionally assign the contact to one or more <strong>groups</strong></li>
+    <li>Click <strong>Create</strong></li>
+  </ol>
+
+  <h3>Importing contacts</h3>
+
+  <p>
+    You can bulk-import contacts from <strong>vCard (.vcf)</strong> files. This is useful for importing contacts exported from your phone, Google Contacts, or other services.
+  </p>
+
+  <ol>
+    <li>Go to <strong>Contacts</strong></li>
+    <li>Click <strong>Import</strong></li>
+    <li>Select a <code>.vcf</code> file</li>
+    <li>Review the preview and confirm</li>
+  </ol>
+
+  <p>Duplicate phone numbers are skipped during import.</p>
+
+  <h2>Groups</h2>
+
+  <p>
+    Groups let you organize contacts and send messages to multiple recipients at once. A contact can belong to multiple groups.
+  </p>
+
+  <h3>Creating groups</h3>
+
+  <ol>
+    <li>Navigate to <strong>Contacts</strong> and switch to the <strong>Groups</strong> tab</li>
+    <li>Click <strong>Add Group</strong></li>
+    <li>Enter a group name</li>
+  </ol>
+
+  <h3>Sending to groups</h3>
+
+  <p>
+    When composing a message in the dashboard, you can select one or more groups as recipients. All contacts in those groups will receive the message.
+  </p>
+
+  <p>
+    Via the API, pass <code>group_ids</code> instead of (or in addition to) <code>recipients</code>:
+  </p>
+
+  <CodeBlock lang="json" code={`POST /api/sms/send
+{
+  "group_ids": ["group_id_1", "group_id_2"],
+  "body": "Hello everyone!"
+}`} />
+
+  <h2>API access</h2>
+
+  <p>
+    Contacts and groups are stored in the <code>contacts</code> and <code>contact_groups</code> collections. All operations are scoped to the authenticated user.
+  </p>
+
+  <h3>List contacts</h3>
+
+  <CodeBlock lang="bash" code="GET /api/collections/contacts/records" />
+
+  <h3>Create a contact</h3>
+
+  <CodeBlock lang="bash" code="POST /api/collections/contacts/records" />
+
+  <table>
+    <thead>
+      <tr>
+        <th>Field</th>
+        <th>Type</th>
+        <th>Required</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>name</code></td>
+        <td>string</td>
+        <td>Yes</td>
+        <td>Contact name</td>
+      </tr>
+      <tr>
+        <td><code>phone</code></td>
+        <td>string</td>
+        <td>Yes</td>
+        <td>Phone number in E.164 format</td>
+      </tr>
+      <tr>
+        <td><code>groups</code></td>
+        <td>relation[]</td>
+        <td>No</td>
+        <td>Array of group IDs</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>List groups</h3>
+
+  <CodeBlock lang="bash" code="GET /api/collections/contact_groups/records" />
+
+  <h3>Export contacts</h3>
+
+  <CodeBlock lang="bash" code="GET /api/contacts/export" />
+
+  <p>Returns all contacts as a downloadable vCard (.vcf) file.</p>
+
+  <h2>Related</h2>
+
+  <ul>
+    <li><a href="/docs/templates">SMS Templates</a> — Use contact names in template variables</li>
+    <li><a href="/docs/api/send-sms">Send SMS</a> — Send to groups via the API</li>
+  </ul>
+</DocsLayout>
